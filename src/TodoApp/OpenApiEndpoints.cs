@@ -7,16 +7,9 @@ public static class OpenApiEndpoints
 {
     public static IServiceCollection AddOpenApiServices(this IServiceCollection services)
     {
-        // Configure Microsoft.AspNetCore.OpenApi documentation for the Todo API
-        services.AddOpenApi(options =>
-        {
-            options.AddDocumentTransformer((document, _, _) =>
-            {
-                document.Info.Title = "Todo API";
-                document.Info.Version = "v1";
-                return Task.CompletedTask;
-            });
-        });
+        services.AddAspNetCoreOpenApi();
+        services.AddNSwagOpenApi();
+        services.AddSwashbuckleOpenApi();
 
         return services;
     }
@@ -24,8 +17,9 @@ public static class OpenApiEndpoints
     public static T UseOpenApiEndpoints<T>(this T builder)
         where T : IApplicationBuilder, IEndpointRouteBuilder
     {
-        // Add endpoint for Microsoft.AspNetCore.OpenApi
-        builder.MapOpenApi();
+        builder.UseAspnetCoreOpenApi();
+        builder.UseNSwagOpenApi();
+        builder.UseSwashbuckleOpenApi();
 
         return builder;
     }

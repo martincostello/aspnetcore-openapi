@@ -2,7 +2,9 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NSwag.Annotations;
 using TodoApp.Data;
 using TodoApp.Models;
 using TodoApp.Services;
@@ -61,16 +63,27 @@ public static class ApiEndpoints
     /// </returns>
     public static IEndpointRouteBuilder MapTodoApiRoutes(this IEndpointRouteBuilder builder)
     {
-        var group = builder.MapGroup("/api/items");
+        var group = builder.MapGroup("/api/items")
+                           .WithTags("TodoApp");
         {
-            group.MapGet("/", async (ITodoService service, CancellationToken cancellationToken) => await service.GetListAsync(cancellationToken))
-                 .WithSummary("Get all Todo items")
-                 .WithDescription("Gets all of the current user's todo items.");
+            group.MapGet(
+                "/",
+                [OpenApiOperation("Get all Todo items", "Gets all of the current user's todo items.")]
+                [SwaggerResponse(StatusCodes.Status200OK, typeof(TodoListViewModel), Description = "OK")]
+                async (ITodoService service, CancellationToken cancellationToken) => await service.GetListAsync(cancellationToken))
+                .WithName("ListTodos")
+                .WithSummary("Get all Todo items")
+                .WithDescription("Gets all of the current user's todo items.");
 
-            group.MapGet("/{id}", async Task<Results<Ok<TodoItemModel>, ProblemHttpResult>> (
-                Guid id,
-                ITodoService service,
-                CancellationToken cancellationToken) =>
+            group.MapGet(
+                "/{id}",
+                [OpenApiOperation("Get a specific Todo item", "Gets the todo item with the specified ID.")]
+                [SwaggerResponse(StatusCodes.Status200OK, typeof(TodoItemModel), Description = "OK")]
+                [SwaggerResponse(StatusCodes.Status404NotFound, typeof(ProblemDetails), Description = "Not Found")]
+                async Task<Results<Ok<TodoItemModel>, ProblemHttpResult>> (
+                    Guid id,
+                    ITodoService service,
+                    CancellationToken cancellationToken) =>
                 {
                     var model = await service.GetAsync(id, cancellationToken);
                     return model switch
@@ -80,13 +93,19 @@ public static class ApiEndpoints
                     };
                 })
                 .ProducesProblem(StatusCodes.Status404NotFound)
+                .WithName("GetTodo")
                 .WithSummary("Get a specific Todo item")
                 .WithDescription("Gets the todo item with the specified ID.");
 
-            group.MapPost("/", async Task<Results<Created<CreatedTodoItemModel>, ProblemHttpResult>> (
-                CreateTodoItemModel model,
-                ITodoService service,
-                CancellationToken cancellationToken) =>
+            group.MapPost(
+                "/",
+                [OpenApiOperation("Create a new Todo item", "Creates a new todo item for the current user and returns its ID.")]
+                [SwaggerResponse(StatusCodes.Status201Created, typeof(CreatedTodoItemModel), Description = "Created")]
+                [SwaggerResponse(StatusCodes.Status400BadRequest, typeof(ProblemDetails), Description = "Bad Request")]
+                async Task<Results<Created<CreatedTodoItemModel>, ProblemHttpResult>> (
+                    CreateTodoItemModel model,
+                    ITodoService service,
+                    CancellationToken cancellationToken) =>
                 {
                     if (string.IsNullOrWhiteSpace(model.Text))
                     {
@@ -98,13 +117,20 @@ public static class ApiEndpoints
                     return TypedResults.Created($"/api/items/{id}", new CreatedTodoItemModel() { Id = id });
                 })
                 .ProducesProblem(StatusCodes.Status400BadRequest)
+                .WithName("CreateTodo")
                 .WithSummary("Create a new Todo item")
                 .WithDescription("Creates a new todo item for the current user and returns its ID.");
 
-            group.MapPost("/{id}/complete", async Task<Results<NoContent, ProblemHttpResult>> (
-                Guid id,
-                ITodoService service,
-                CancellationToken cancellationToken) =>
+            group.MapPost(
+                "/{id}/complete",
+                [OpenApiOperation("Mark a Todo item as completed", "Marks the todo item with the specified ID as complete.")]
+                [SwaggerResponse(StatusCodes.Status204NoContent, typeof(void), Description = "No Content")]
+                [SwaggerResponse(StatusCodes.Status400BadRequest, typeof(ProblemDetails), Description = "Bad Request")]
+                [SwaggerResponse(StatusCodes.Status404NotFound, typeof(ProblemDetails), Description = "Not Found")]
+                async Task<Results<NoContent, ProblemHttpResult>> (
+                    Guid id,
+                    ITodoService service,
+                    CancellationToken cancellationToken) =>
                 {
                     var wasCompleted = await service.CompleteItemAsync(id, cancellationToken);
 
@@ -117,13 +143,19 @@ public static class ApiEndpoints
                 })
                 .ProducesProblem(StatusCodes.Status400BadRequest)
                 .ProducesProblem(StatusCodes.Status404NotFound)
+                .WithName("CompleteTodo")
                 .WithSummary("Mark a Todo item as completed")
                 .WithDescription("Marks the todo item with the specified ID as complete.");
 
-            group.MapDelete("/{id}", async Task<Results<NoContent, ProblemHttpResult>> (
-                Guid id,
-                ITodoService service,
-                CancellationToken cancellationToken) =>
+            group.MapDelete(
+                "/{id}",
+                [OpenApiOperation("Delete a Todo item", "Deletes the todo item with the specified ID.")]
+                [SwaggerResponse(StatusCodes.Status204NoContent, typeof(void), Description = "No Content")]
+                [SwaggerResponse(StatusCodes.Status404NotFound, typeof(ProblemDetails), Description = "Not Found")]
+                async Task<Results<NoContent, ProblemHttpResult>> (
+                    Guid id,
+                    ITodoService service,
+                    CancellationToken cancellationToken) =>
                 {
                     var wasDeleted = await service.DeleteItemAsync(id, cancellationToken);
                     return wasDeleted switch
@@ -133,6 +165,7 @@ public static class ApiEndpoints
                     };
                 })
                 .ProducesProblem(StatusCodes.Status404NotFound)
+                .WithName("DeleteTodo")
                 .WithSummary("Delete a Todo item")
                 .WithDescription("Deletes the todo item with the specified ID.");
         };
