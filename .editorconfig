@@ -27,6 +27,7 @@ charset = utf-8-bom
 
 [*.{cs,vb}]
 
+dotnet_diagnostic.IDE0055.severity = silent
 dotnet_diagnostic.IDE0058.severity = silent
 dotnet_diagnostic.IDE0130.severity = silent
 
