@@ -41,12 +41,12 @@ The repository is hosted in [GitHub][repo]: <https://github.com/martincostello/a
 This project is licensed under the [Apache 2.0][license] license.
 
 [aspnetcore-openapi]: https://learn.microsoft.com/aspnet/core/fundamentals/minimal-apis/aspnetcore-openapi "Get started with Microsoft.AspNetCore.OpenApi"
-[build-badge]: https://github.com/martincostello/CHANGE_ME/actions/workflows/build.yml/badge.svg?branch=main&event=push "Build status for this project"
-[build-status]: https://github.com/martincostello/CHANGE_ME/actions?query=workflow%3Abuild+branch%3Amain+event%3Apush "Continuous Integration for this project"
+[build-badge]: https://github.com/martincostello/aspnetcore-openapi/actions/workflows/build.yml/badge.svg?branch=main&event=push "Build status for this project"
+[build-status]: https://github.com/martincostello/aspnetcore-openapi/actions?query=workflow%3Abuild+branch%3Amain+event%3Apush "Continuous Integration for this project"
 [dotnet-sdk]: https://dotnet.microsoft.com/download "Download the .NET SDK"
-[issues]: https://github.com/martincostello/CHANGE_ME/issues "Issues for this project on GitHub.com"
+[issues]: https://github.com/martincostello/aspnetcore-openapi/issues "Issues for this project on GitHub.com"
 [license]: https://www.apache.org/licenses/LICENSE-2.0.txt "The Apache 2.0 license"
 [nswag]: https://github.com/RicoSuter/NSwag "The NSwag repository"
 [openapi]: https://swagger.io/specification/ "The OpenAPI website"
-[repo]: https://github.com/martincostello/CHANGE_ME "This project on GitHub.com"
+[repo]: https://github.com/martincostello/aspnetcore-openapi "This project on GitHub.com"
 [swashbuckle]: https://github.com/domaindrivendev/Swashbuckle.AspNetCore "The Swashbuckle.AspNetCore repository"
