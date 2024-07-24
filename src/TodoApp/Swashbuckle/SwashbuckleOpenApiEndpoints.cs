@@ -1,7 +1,10 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace TodoApp;
 
@@ -45,6 +48,9 @@ public static class SwashbuckleOpenApiEndpoints
 
             options.EnableAnnotations();
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "TodoApp.xml"));
+
+            options.DocumentFilter<AddDocumentTagsFilter>();
+            options.DocumentFilter<AddServersFilter>();
         });
 
         return services;
@@ -56,5 +62,25 @@ public static class SwashbuckleOpenApiEndpoints
         builder.UseSwagger();
 
         return builder;
+    }
+
+    public class AddDocumentTagsFilter : IDocumentFilter
+    {
+        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+        {
+            swaggerDoc.Tags.Add(new() { Name = "TodoApp" });
+        }
+    }
+
+    public class AddServersFilter(IHostEnvironment environment, IServer server) : IDocumentFilter
+    {
+        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+        {
+            if (environment.IsDevelopment() &&
+                server.Features.Get<IServerAddressesFeature>()?.Addresses is { Count: > 0 } addresses)
+            {
+                swaggerDoc.Servers = addresses.Select(address => new OpenApiServer { Url = address }).ToList();
+            }
+        }
     }
 }
