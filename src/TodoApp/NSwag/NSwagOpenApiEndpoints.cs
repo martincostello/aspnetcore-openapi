@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using NSwag;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
@@ -59,7 +61,31 @@ public static class NSwagOpenApiEndpoints
     public static T UseNSwagOpenApi<T>(this T builder)
         where T : IApplicationBuilder, IEndpointRouteBuilder
     {
-        builder.UseOpenApi(settings => settings.Path = "/nswag/{documentName}.json");
+        builder.UseOpenApi(settings =>
+        {
+            settings.Path = "/nswag/{documentName}.json";
+
+            // Show HTTP and HTTPS servers to match OpenAPI and Swashbuckle
+            var environment = builder.ApplicationServices.GetRequiredService<IHostEnvironment>();
+            if (environment.IsDevelopment())
+            {
+                settings.PostProcess = (document, request) =>
+                {
+                    var server = builder.ApplicationServices.GetRequiredService<IServer>();
+
+                    if (server.Features.Get<IServerAddressesFeature>()?.Addresses is { Count: > 0 } addresses)
+                    {
+                        document.Schemes = [OpenApiSchema.Https, OpenApiSchema.Http];
+                        document.Servers.Clear();
+
+                        foreach (var address in addresses)
+                        {
+                            document.Servers.Add(new() { Url = address });
+                        }
+                    }
+                };
+            };
+        });
 
         return builder;
     }
