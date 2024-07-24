@@ -2,6 +2,8 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using NSwag;
+using NSwag.Generation.Processors;
+using NSwag.Generation.Processors.Contexts;
 
 namespace TodoApp;
 
@@ -16,8 +18,6 @@ public static class NSwagOpenApiEndpoints
 
             options.PostProcess = document =>
             {
-                document.Generator = null;
-
                 document.Info.Contact = new()
                 {
                     Name = "Martin Costello",
@@ -39,7 +39,18 @@ public static class NSwagOpenApiEndpoints
                     Type = OpenApiSecuritySchemeType.Http,
                 });
                 document.Security.Add(new() { ["Bearer"] = [] });
+
+                document.Tags.Add(new() { Name = "TodoApp" });
+
+                // Remove the NSwag generator information
+                document.Generator = null;
             };
+
+            // Update errors to have a media type of "application/problem+json"
+            options.OperationProcessors.Add(new UpdateProblemDetailsMediaTypeProcessor());
+
+            // Remove NSwag-specific extension properties from parameters
+            options.OperationProcessors.Add(new RemoveNSwagExtensions());
         });
 
         return services;
@@ -51,5 +62,49 @@ public static class NSwagOpenApiEndpoints
         builder.UseOpenApi(settings => settings.Path = "/nswag/{documentName}.json");
 
         return builder;
+    }
+
+    public class RemoveNSwagExtensions : IOperationProcessor
+    {
+        public bool Process(OperationProcessorContext context)
+        {
+            foreach (var parameter in context.Parameters.Values)
+            {
+                parameter.Position = null;
+
+                if (parameter.Kind is OpenApiParameterKind.Body)
+                {
+                    parameter.Name = null;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    public class UpdateProblemDetailsMediaTypeProcessor : IOperationProcessor
+    {
+        public bool Process(OperationProcessorContext context)
+        {
+            foreach ((string status, var response) in context.OperationDescription.Operation.Responses)
+            {
+                if (status.StartsWith('2'))
+                {
+                    continue;
+                }
+
+                foreach ((string key, var mediaType) in response.Content.ToDictionary())
+                {
+                    if (key is "application/json")
+                    {
+                        var responses = context.OperationDescription.Operation.Responses[status];
+                        responses.Content["application/problem+json"] = mediaType;
+                        responses.Content.Remove(key);
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 }
