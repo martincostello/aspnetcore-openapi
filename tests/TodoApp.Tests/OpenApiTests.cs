@@ -26,6 +26,7 @@ public class OpenApiTests
     [Theory]
     [InlineData("/nswag/v1.json")]
     [InlineData("/openapi/v1.json")]
+    [InlineData("/swagger/v1/swagger.json")]
     public async Task Schema_Has_No_Validation_Warnings(string schemaUrl)
     {
         // Arrange
