@@ -2,8 +2,10 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using TodoApp.OpenApi;
 
 namespace TodoApp.Swashbuckle;
 
@@ -28,7 +30,11 @@ public class ExampleFilter : IOperationFilter, ISchemaFilter
     /// <inheritdoc />
     public void Apply(OpenApiSchema schema, SchemaFilterContext context)
     {
-        if (context.Type != null)
+        if (context.Type == typeof(ProblemDetails))
+        {
+            schema.Example = ExampleFormatter.AsJson<ProblemDetails, ProblemDetailsExampleProvider>(Context);
+        }
+        else
         {
             var metadata = context.Type
                 .GetCustomAttributes()
