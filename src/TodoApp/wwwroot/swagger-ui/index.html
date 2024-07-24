@@ -21,6 +21,27 @@
             margin: 0;
             background: #fafafa;
         }
+        .swagger-ui svg:not(:root), .topbar-wrapper span {
+            display: none;
+        }
+        .swagger-ui .topbar a {
+            font-size: 1.25em;
+            font-weight: 400;
+            max-width: unset;
+        }
+        .topbar-wrapper .link::after {
+            content: 'ASP.NET Core 🤝 OpenAPI';
+            margin-left: 0.25em;
+        }
+        .topbar-wrapper .link:before {
+            background-image: url('./dotnet.png');
+            background-size: 48px 48px;
+            content: '';
+            display: inline-block;
+            height: 48px;
+            padding-right: 1em;
+            width: 48px;
+        }
     </style>
 </head>
 <body>
@@ -30,7 +51,20 @@
     <script>
         window.onload = function () {
             window.ui = SwaggerUIBundle({
-                url: "/openapi/v1.json",
+                urls: [
+                    {
+                        url: '/openapi/v1.json',
+                        name: 'Microsoft.AspNetCore.OpenApi'
+                    },
+                    {
+                        url: '/openapi/v1.json',
+                        name: 'NSwag'
+                    },
+                    {
+                        url: '/openapi/v1.json',
+                        name: 'Swashbuckle.AspNetCore'
+                    }
+                ],
                 dom_id: '#swagger-ui',
                 deepLinking: true,
                 presets: [
@@ -38,17 +72,12 @@
                     SwaggerUIStandalonePreset
                 ],
                 plugins: [
-                    SwaggerUIBundle.plugins.DownloadUrl,
-                    {
-                        components: {
-                            Topbar: () => null
-                        }
-                    }
+                    SwaggerUIBundle.plugins.DownloadUrl
                 ],
-                defaultModelRendering: "schema",
+                defaultModelRendering: 'schema',
                 displayRequestDuration: true,
                 jsonEditor: true,
-                layout: "StandaloneLayout",
+                layout: 'StandaloneLayout',
                 showRequestHeaders: true,
                 validatorUrl: null
             });
