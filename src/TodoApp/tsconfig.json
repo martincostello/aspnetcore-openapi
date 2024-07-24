@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "inlineSources": true,
+    "inlineSourceMap": true,
+    "moduleResolution": "Node",
+    "noEmitOnError": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitThis": true,
+    "outDir": "./wwwroot/static/js",
+    "removeComments": false,
+    "sourceMap": false,
+    "target": "ES2015"
+  },
+  "exclude": [
+    "node_modules",
+    "wwwroot"
+  ]
+}

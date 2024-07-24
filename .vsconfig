@@ -1,0 +1,16 @@
+{
+  "version": "1.0",
+  "components": [
+    "Component.Microsoft.VisualStudio.RazorExtension",
+    "Microsoft.NetCore.Component.Runtime.9.0",
+    "Microsoft.NetCore.Component.SDK",
+    "Microsoft.VisualStudio.Component.CoreEditor",
+    "Microsoft.VisualStudio.Component.JavaScript.Diagnostics",
+    "Microsoft.VisualStudio.Component.Node.Tools",
+    "Microsoft.VisualStudio.Component.Roslyn.Compiler",
+    "Microsoft.VisualStudio.Component.Roslyn.LanguageServices",
+    "Microsoft.VisualStudio.ComponentGroup.WebToolsExtensions",
+    "Microsoft.VisualStudio.Workload.CoreEditor",
+    "Microsoft.VisualStudio.Workload.Node"
+  ]
+}

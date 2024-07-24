@@ -1,0 +1,30 @@
+{
+  "name": "C# (.NET)",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "editorconfig.editorconfig",
+        "ms-dotnettools.csharp",
+        "ms-vscode.PowerShell"
+      ]
+    }
+  },
+  "forwardPorts": [ 50000, 50001 ],
+  "portsAttributes":{
+    "50000": {
+      "onAutoForward": "silent"
+    },
+    "50001": {
+      "label": "TodoApp",
+      "onAutoForward": "openBrowserOnce"
+    }
+  },
+  "postCreateCommand": "./build.ps1 -SkipTests",
+  "remoteEnv": {
+    "DOTNET_ROLL_FORWARD": "Major",
+    "PATH": "/root/.dotnet/tools:${containerWorkspaceFolder}/.dotnet:${containerEnv:PATH}"
+  }
+}
