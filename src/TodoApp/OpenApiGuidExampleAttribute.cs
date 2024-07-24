@@ -8,7 +8,7 @@ namespace TodoApp;
 /// </summary>
 /// <param name="value">The example value.</param>
 [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-public sealed class OpenApiGuidExampleAttribute(string value) : OpenApiExampleAttribute<Guid, OpenApiGuidExampleAttribute>, IExampleProvider<Guid>
+public class OpenApiGuidExampleAttribute(string value) : OpenApiExampleAttribute<Guid, OpenApiGuidExampleAttribute>, IExampleProvider<Guid>
 {
     /// <summary>
     /// Gets the example value.

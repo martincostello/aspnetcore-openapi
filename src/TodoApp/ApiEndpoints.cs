@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using NSwag.Annotations;
 using TodoApp.Data;
 using TodoApp.Models;
+using TodoApp.NSwag;
 using TodoApp.OpenApi;
 using TodoApp.Services;
 
@@ -67,10 +68,11 @@ public static class ApiEndpoints
         var group = builder.MapGroup("/api/items")
                            .WithTags("TodoApp")
                            .WithMetadata(new OpenApiExampleAttribute<ProblemDetails, ProblemDetailsExampleProvider>())
-                           .WithMetadata(new OpenApiGuidExampleAttribute("a03952ca-880e-4af7-9cfa-630be0feb4a5"));
+                           .WithMetadata(new OpenApiIdExampleAttribute());
         {
             group.MapGet(
                 "/",
+                [NSwagOpenApiExample<TodoListViewModel>]
                 [OpenApiOperation("Get all Todo items", "Gets all of the current user's todo items.")]
                 [SwaggerResponse(StatusCodes.Status200OK, typeof(TodoListViewModel), Description = "OK")]
                 async (ITodoService service, CancellationToken cancellationToken) => await service.GetListAsync(cancellationToken))
@@ -80,6 +82,8 @@ public static class ApiEndpoints
 
             group.MapGet(
                 "/{id}",
+                [NSwagOpenApiExample<ProblemDetails, ProblemDetailsExampleProvider>]
+                [NSwagOpenApiExample<TodoItemModel>]
                 [OpenApiOperation("Get a specific Todo item", "Gets the todo item with the specified ID.")]
                 [SwaggerResponse(StatusCodes.Status200OK, typeof(TodoItemModel), Description = "OK")]
                 [SwaggerResponse(StatusCodes.Status404NotFound, typeof(ProblemDetails), Description = "Not Found")]
@@ -102,6 +106,9 @@ public static class ApiEndpoints
 
             group.MapPost(
                 "/",
+                [NSwagOpenApiExample<CreateTodoItemModel>]
+                [NSwagOpenApiExample<CreatedTodoItemModel>]
+                [NSwagOpenApiExample<ProblemDetails, ProblemDetailsExampleProvider>]
                 [OpenApiOperation("Create a new Todo item", "Creates a new todo item for the current user and returns its ID.")]
                 [SwaggerResponse(StatusCodes.Status201Created, typeof(CreatedTodoItemModel), Description = "Created")]
                 [SwaggerResponse(StatusCodes.Status400BadRequest, typeof(ProblemDetails), Description = "Bad Request")]
@@ -126,6 +133,7 @@ public static class ApiEndpoints
 
             group.MapPost(
                 "/{id}/complete",
+                [NSwagOpenApiExample<ProblemDetails, ProblemDetailsExampleProvider>]
                 [OpenApiOperation("Mark a Todo item as completed", "Marks the todo item with the specified ID as complete.")]
                 [SwaggerResponse(StatusCodes.Status204NoContent, typeof(void), Description = "No Content")]
                 [SwaggerResponse(StatusCodes.Status400BadRequest, typeof(ProblemDetails), Description = "Bad Request")]
@@ -152,6 +160,7 @@ public static class ApiEndpoints
 
             group.MapDelete(
                 "/{id}",
+                [NSwagOpenApiExample<ProblemDetails, ProblemDetailsExampleProvider>]
                 [OpenApiOperation("Delete a Todo item", "Deletes the todo item with the specified ID.")]
                 [SwaggerResponse(StatusCodes.Status204NoContent, typeof(void), Description = "No Content")]
                 [SwaggerResponse(StatusCodes.Status404NotFound, typeof(ProblemDetails), Description = "Not Found")]

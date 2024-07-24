@@ -15,5 +15,8 @@ namespace TodoApp;
 [JsonSerializable(typeof(ProblemDetails))]
 [JsonSerializable(typeof(TodoItemModel))]
 [JsonSerializable(typeof(TodoListViewModel))]
-[JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase, WriteIndented = true)]
+[JsonSourceGenerationOptions(
+    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+    PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
+    WriteIndented = true)]
 public sealed partial class TodoJsonSerializerContext : JsonSerializerContext;
