@@ -6,10 +6,19 @@ namespace TodoApp.Models;
 /// <summary>
 /// Represents the model for a created Todo item.
 /// </summary>
-public class CreatedTodoItemModel
+[OpenApiExample<CreatedTodoItemModel>]
+public class CreatedTodoItemModel : IExampleProvider<CreatedTodoItemModel>
 {
     /// <summary>
     /// Gets or sets the ID of the created Todo item.
     /// </summary>
     public string Id { get; set; } = string.Empty;
+
+    public static CreatedTodoItemModel GenerateExample()
+    {
+        return new()
+        {
+            Id = "a03952ca-880e-4af7-9cfa-630be0feb4a5",
+        };
+    }
 }
