@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using TodoApp.Swashbuckle;
 
 namespace TodoApp;
 
@@ -51,6 +52,9 @@ public static class SwashbuckleOpenApiEndpoints
 
             options.DocumentFilter<AddDocumentTagsFilter>();
             options.DocumentFilter<AddServersFilter>();
+
+            options.OperationFilter<ExampleFilter>();
+            options.SchemaFilter<ExampleFilter>();
         });
 
         return services;

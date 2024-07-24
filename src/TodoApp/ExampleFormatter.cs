@@ -8,7 +8,7 @@ using Microsoft.OpenApi.Any;
 namespace TodoApp;
 
 /// <summary>
-/// A class containing methods to help format JSON examples for OpenAPI. This class cannot be inherited.
+/// A class containing methods to help format JSON examples for OpenAPI.
 /// </summary>
 internal static class ExampleFormatter
 {

@@ -10,9 +10,9 @@ using Microsoft.OpenApi.Models;
 namespace TodoApp.OpenApi;
 
 /// <summary>
-/// A class representing an operation processor that adds examples to API endpoints. This class cannot be inherited.
+/// A class representing an operation processor that adds examples to API endpoints.
 /// </summary>
-internal sealed class AddExamplesTransformer : IOpenApiOperationTransformer, IOpenApiSchemaTransformer
+public class AddExamplesTransformer : IOpenApiOperationTransformer, IOpenApiSchemaTransformer
 {
     private static readonly TodoJsonSerializerContext Context = TodoJsonSerializerContext.Default;
 

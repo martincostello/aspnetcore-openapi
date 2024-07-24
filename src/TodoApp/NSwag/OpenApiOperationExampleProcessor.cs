@@ -14,7 +14,6 @@ namespace TodoApp.NSwag;
 
 /// <summary>
 /// A class representing an processor for OpenAPI operation examples.
-/// This class cannot be inherited.
 /// </summary>
 /// <typeparam name="TSchema">The type of the schema.</typeparam>
 /// <typeparam name="TProvider">The type of the example provider.</typeparam>

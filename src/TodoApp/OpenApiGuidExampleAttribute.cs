@@ -4,7 +4,7 @@
 namespace TodoApp;
 
 /// <summary>
-/// An attribute representing an example for an OpenAPI operation parameter. This class cannot be inherited.
+/// An attribute representing an example for an OpenAPI operation parameter.
 /// </summary>
 /// <param name="value">The example value.</param>
 [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
