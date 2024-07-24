@@ -17,6 +17,7 @@ permissions:
 
 jobs:
   code-ql:
+    if: false # TODO Disable until repo public
 
     runs-on: ubuntu-latest
 
