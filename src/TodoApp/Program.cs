@@ -14,15 +14,7 @@ builder.Services.AddTodoApi();
 builder.Services.AddRazorPages();
 
 // Configure OpenAPI documentation for the Todo API
-builder.Services.AddOpenApi(options =>
-{
-    options.AddDocumentTransformer((document, _, _) =>
-    {
-        document.Info.Title = "Todo API";
-        document.Info.Version = "v1";
-        return Task.CompletedTask;
-    });
-});
+builder.Services.AddOpenApiServices();
 
 if (string.Equals(builder.Configuration["CODESPACES"], "true", StringComparison.OrdinalIgnoreCase))
 {
@@ -52,8 +44,8 @@ if (!app.Environment.IsDevelopment())
 // Add static files for JavaScript, CSS and OpenAPI
 app.UseStaticFiles();
 
-// Add endpoint for OpenAPI
-app.MapOpenApi();
+// Add endpoints for OpenAPI
+app.UseOpenApiEndpoints();
 
 // Add the HTTP endpoints
 app.MapTodoApiRoutes();
