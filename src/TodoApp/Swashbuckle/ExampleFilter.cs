@@ -2,7 +2,6 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using System.Reflection;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -18,10 +17,12 @@ public class ExampleFilter : IOperationFilter, ISchemaFilter
     /// <inheritdoc />
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        if (operation != null && context?.ApiDescription != null && context.SchemaRepository != null)
-        {
-            AddResponseExamples(operation, context);
-        }
+        var examples = context.ApiDescription.ActionDescriptor.EndpointMetadata
+            .OfType<IOpenApiExampleMetadata>()
+            .ToArray();
+
+        AddParameterExamples(operation.Parameters, context, examples);
+        AddResponseExamples(operation.Responses, context, examples);
     }
 
     /// <inheritdoc />
@@ -41,43 +42,66 @@ public class ExampleFilter : IOperationFilter, ISchemaFilter
         }
     }
 
-    private static T[] GetAttributes<T>(ApiDescription apiDescription)
+    private static void AddParameterExamples(
+        IList<OpenApiParameter> parameters,
+        OperationFilterContext context,
+        IList<IOpenApiExampleMetadata> examples)
     {
-        IEnumerable<T> attributes = [];
+        var methodInfo = context.ApiDescription.ActionDescriptor.EndpointMetadata
+            .OfType<MethodInfo>()
+            .FirstOrDefault();
 
-        if (apiDescription.TryGetMethodInfo(out MethodInfo methodInfo))
+        var arguments = methodInfo?
+            .GetParameters()
+            .ToArray();
+
+        if (arguments is { Length: > 0 })
         {
-            attributes = methodInfo.GetCustomAttributes().OfType<T>();
-        }
+            foreach (var argument in arguments)
+            {
+                var metadata = argument.GetCustomAttributes()
+                    .OfType<IOpenApiExampleMetadata>()
+                    .FirstOrDefault((p) => p.SchemaType == argument.ParameterType);
 
-        if (apiDescription.ActionDescriptor is not null)
-        {
-            attributes = [.. attributes, .. apiDescription.ActionDescriptor.EndpointMetadata.OfType<T>()];
-        }
+                metadata ??= argument.ParameterType.GetCustomAttributes()
+                    .OfType<IOpenApiExampleMetadata>()
+                    .FirstOrDefault((p) => p.SchemaType == argument.ParameterType);
 
-        return attributes.ToArray();
+                metadata ??= examples.FirstOrDefault((p) => p.SchemaType == argument.ParameterType);
+
+                if (metadata?.GenerateExample(Context) is { } value)
+                {
+                    var parameter = parameters.FirstOrDefault((p) => p.Name == argument.Name);
+                    if (parameter is not null)
+                    {
+                        parameter.Example = value;
+                    }
+                }
+            }
+        }
     }
 
-    private static void AddResponseExamples(OpenApiOperation operation, OperationFilterContext context)
+    private static void AddResponseExamples(
+        OpenApiResponses responses,
+        OperationFilterContext context,
+        IList<IOpenApiExampleMetadata> examples)
     {
-        var examples = GetAttributes<IOpenApiExampleMetadata>(context.ApiDescription);
-
-        foreach (var metadata in examples)
+        foreach (var schemaResponse in context.ApiDescription.SupportedResponseTypes)
         {
-            if (!context.SchemaRepository.Schemas.TryGetValue(metadata.SchemaType.Name, out var schema))
-            {
-                continue;
-            }
+            var metadata = schemaResponse.Type?.GetCustomAttributes()
+                .OfType<IOpenApiExampleMetadata>()
+                .FirstOrDefault((p) => p.SchemaType == schemaResponse.Type);
 
-            var response = operation.Responses
-                .SelectMany((p) => p.Value.Content)
-                .Where((p) => p.Value.Schema.Reference.Id == metadata.SchemaType.Name)
-                .Select((p) => p)
-                .FirstOrDefault();
+            schemaResponse.Type ??= schemaResponse.ModelMetadata?.ModelType;
 
-            if (!response.Equals(new KeyValuePair<string, OpenApiMediaType>()))
+            foreach (var responseFormat in schemaResponse.ApiResponseFormats)
             {
-                response.Value.Example = metadata.GenerateExample(Context);
+                if (responses.TryGetValue(schemaResponse.StatusCode.ToString(CultureInfo.InvariantCulture), out var response) &&
+                    response.Content.TryGetValue(responseFormat.MediaType, out var mediaType))
+                {
+                    mediaType.Example ??= metadata?.GenerateExample(Context);
+                    mediaType.Example ??= examples.SingleOrDefault((p) => p.SchemaType == schemaResponse.Type)?.GenerateExample(Context);
+                }
             }
         }
     }
