@@ -3,7 +3,7 @@
     <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>false</IsPackable>
-    <NoWarn>$(NoWarn);CA1050;CS1591</NoWarn>
+    <NoWarn>$(NoWarn);CA1019;CA1050;CA1813;CS1591</NoWarn>
     <RootNamespace>TodoApp</RootNamespace>
     <TargetFramework>net9.0</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>

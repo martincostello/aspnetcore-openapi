@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using NSwag.Annotations;
 using TodoApp.Data;
 using TodoApp.Models;
+using TodoApp.OpenApi;
 using TodoApp.Services;
 
 namespace TodoApp;
@@ -64,7 +65,9 @@ public static class ApiEndpoints
     public static IEndpointRouteBuilder MapTodoApiRoutes(this IEndpointRouteBuilder builder)
     {
         var group = builder.MapGroup("/api/items")
-                           .WithTags("TodoApp");
+                           .WithTags("TodoApp")
+                           .WithMetadata(new OpenApiExampleAttribute<ProblemDetails, ProblemDetailsExampleProvider>())
+                           .WithMetadata(new OpenApiGuidExampleAttribute("a03952ca-880e-4af7-9cfa-630be0feb4a5"));
         {
             group.MapGet(
                 "/",

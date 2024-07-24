@@ -6,7 +6,8 @@ namespace TodoApp.Models;
 /// <summary>
 /// Represents a Todo item.
 /// </summary>
-public class TodoItemModel
+[OpenApiExample<TodoItemModel>]
+public class TodoItemModel : IExampleProvider<TodoItemModel>
 {
     /// <summary>
     /// Gets or sets the ID of the Todo item.
@@ -27,4 +28,14 @@ public class TodoItemModel
     /// Gets or sets the date and time the Todo item was last updated.
     /// </summary>
     public string LastUpdated { get; set; } = default!;
+
+    public static TodoItemModel GenerateExample()
+    {
+        return new()
+        {
+            Id = "a03952ca-880e-4af7-9cfa-630be0feb4a5",
+            IsCompleted = false,
+            Text = "Buy eggs 🥚",
+        };
+    }
 }

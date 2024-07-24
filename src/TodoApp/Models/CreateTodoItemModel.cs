@@ -6,10 +6,19 @@ namespace TodoApp.Models;
 /// <summary>
 /// Represents the model for creating a new Todo item.
 /// </summary>
-public class CreateTodoItemModel
+[OpenApiExample<CreateTodoItemModel>]
+public class CreateTodoItemModel : IExampleProvider<CreateTodoItemModel>
 {
     /// <summary>
     /// Gets or sets the text of the Todo item.
     /// </summary>
     public string Text { get; set; } = string.Empty;
+
+    public static CreateTodoItemModel GenerateExample()
+    {
+        return new()
+        {
+            Text = "Buy eggs 🥚",
+        };
+    }
 }
