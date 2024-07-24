@@ -30,7 +30,6 @@ public static class NSwagOpenApiEndpoints
                     Url = "https://www.apache.org/licenses/LICENSE-2.0",
                 };
 
-                document.Security.Add(new() { ["Bearer"] = [] });
                 document.SecurityDefinitions.Add("Bearer", new()
                 {
                     BearerFormat = "JSON Web Token",
@@ -39,6 +38,7 @@ public static class NSwagOpenApiEndpoints
                     Scheme = "bearer",
                     Type = OpenApiSecuritySchemeType.Http,
                 });
+                document.Security.Add(new() { ["Bearer"] = [] });
             };
         });
 

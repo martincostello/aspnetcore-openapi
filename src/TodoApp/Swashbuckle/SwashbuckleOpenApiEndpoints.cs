@@ -11,7 +11,7 @@ public static class SwashbuckleOpenApiEndpoints
     {
         services.AddSwaggerGen((options) =>
         {
-            var info = new OpenApiInfo()
+            options.SwaggerDoc("v1", new()
             {
                 Contact = new()
                 {
@@ -25,15 +25,7 @@ public static class SwashbuckleOpenApiEndpoints
                 },
                 Title = "Todo API (Swashbuckle.AspNetCore)",
                 Version = "v1"
-            };
-
-            options.EnableAnnotations();
-            options.IgnoreObsoleteActions();
-            options.IgnoreObsoleteProperties();
-
-            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "TodoApp.xml"));
-
-            options.SwaggerDoc("v1", info);
+            });
 
             var scheme = new OpenApiSecurityScheme()
             {
@@ -49,7 +41,10 @@ public static class SwashbuckleOpenApiEndpoints
                 UnresolvedReference = false,
             };
             options.AddSecurityDefinition(scheme.Reference.Id, scheme);
-            options.AddSecurityRequirement(new() { [scheme] = Array.Empty<string>() });
+            options.AddSecurityRequirement(new() { [scheme] = [] });
+
+            options.EnableAnnotations();
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "TodoApp.xml"));
         });
 
         return services;
