@@ -55,7 +55,7 @@ public sealed class OpenApiOperationExampleProcessor<TSchema, TProvider> : IOper
             var example = TProvider.GenerateExample();
 
             // We cannot change ProblemDetails directly, so we need to adjust it if we see it
-            if (example is ProblemDetails problem)
+            if (example is ProblemDetails)
             {
                 schema.AdditionalPropertiesSchema = NJsonSchema.JsonSchema.CreateAnySchema();
             }

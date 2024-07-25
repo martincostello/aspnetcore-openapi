@@ -21,7 +21,6 @@ public class BrowserFixture(
         [CallerMemberName] string? testName = null)
     {
         string activeTestName = Options.TestName ?? testName!;
-        string? videoUrl = null;
 
         // Start Playwright and load the browser of the specified type
         using var playwright = await Playwright.CreateAsync();
@@ -72,7 +71,7 @@ public class BrowserFixture(
                 await context.Tracing.StopAsync(new() { Path = path });
             }
 
-            videoUrl = await TryCaptureVideoAsync(page, activeTestName);
+            await TryCaptureVideoAsync(page, activeTestName);
         }
     }
 
@@ -152,11 +151,11 @@ public class BrowserFixture(
         }
     }
 
-    private async Task<string?> TryCaptureVideoAsync(IPage page, string testName)
+    private async Task TryCaptureVideoAsync(IPage page, string testName)
     {
         if (!Options.CaptureVideo || page.Video is null)
         {
-            return null;
+            return;
         }
 
         try
@@ -173,7 +172,5 @@ public class BrowserFixture(
         {
             outputHelper.WriteLine("Failed to capture video: " + ex);
         }
-
-        return null;
     }
 }
