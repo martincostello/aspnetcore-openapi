@@ -39,7 +39,8 @@ public class OpenApiTests
 
         if (provider is "openapi")
         {
-            // HACK The schema changes after the first request
+            // HACK The schema changes after the first request.
+            // See https://github.com/dotnet/aspnetcore/issues/56990.
             return;
         }
 
