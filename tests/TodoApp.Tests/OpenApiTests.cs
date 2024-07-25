@@ -23,10 +23,34 @@ public class OpenApiTests
 
     private ITestOutputHelper OutputHelper { get; }
 
+    public static TheoryData<string> OpenApiUrls() => new()
+    {
+        { "/nswag/v1.json" },
+        { "/openapi/v1.json" },
+        { "/swagger/v1/swagger.json" },
+    };
+
     [Theory]
-    [InlineData("/nswag/v1.json")]
-    [InlineData("/openapi/v1.json")]
-    [InlineData("/swagger/v1/swagger.json")]
+    [MemberData(nameof(OpenApiUrls))]
+    public async Task Schema_Is_Correct(string schemaUrl)
+    {
+        // Arrange
+        var provider = schemaUrl.Split('/')[1];
+
+        using var client = Fixture.CreateDefaultClient();
+
+        // Act
+        var actual = await client.GetStringAsync(schemaUrl);
+
+        // Assert
+        var settings = new VerifySettings();
+        settings.UseParameters(provider);
+
+        await Verifier.VerifyJson(actual, settings);
+    }
+
+    [Theory]
+    [MemberData(nameof(OpenApiUrls))]
     public async Task Schema_Has_No_Validation_Warnings(string schemaUrl)
     {
         // Arrange
