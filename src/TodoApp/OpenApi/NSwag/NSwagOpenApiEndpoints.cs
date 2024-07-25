@@ -7,7 +7,7 @@ using NSwag;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 
-namespace TodoApp;
+namespace TodoApp.OpenApi.NSwag;
 
 public static class NSwagOpenApiEndpoints
 {
@@ -112,14 +112,14 @@ public static class NSwagOpenApiEndpoints
     {
         public bool Process(OperationProcessorContext context)
         {
-            foreach ((string status, var response) in context.OperationDescription.Operation.Responses)
+            foreach ((var status, var response) in context.OperationDescription.Operation.Responses)
             {
                 if (status.StartsWith('2'))
                 {
                     continue;
                 }
 
-                foreach ((string key, var mediaType) in response.Content.ToDictionary())
+                foreach ((var key, var mediaType) in response.Content.ToDictionary())
                 {
                     if (key is "application/json")
                     {
