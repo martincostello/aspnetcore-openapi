@@ -4,12 +4,13 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NSwag.Annotations;
 using TodoApp.Data;
 using TodoApp.Models;
 using TodoApp.OpenApi;
 using TodoApp.OpenApi.NSwag;
 using TodoApp.Services;
+using NSwagOpenApiOperationAttribute = NSwag.Annotations.OpenApiOperationAttribute;
+using NSwagOpenApiResponseAttribute = NSwag.Annotations.SwaggerResponseAttribute;
 
 namespace TodoApp;
 
@@ -27,10 +28,12 @@ public static class ApiEndpoints
     /// </returns>
     public static IServiceCollection AddTodoApi(this IServiceCollection services)
     {
+        // Configure dependencies for the business logic of the API
         services.AddSingleton(TimeProvider.System);
         services.AddScoped<ITodoRepository, TodoRepository>();
         services.AddScoped<ITodoService, TodoService>();
 
+        // Configure an EFCore data context to store the Todos backed by SQLite
         services.AddDbContext<TodoContext>((serviceProvider, options) =>
         {
             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
@@ -65,16 +68,22 @@ public static class ApiEndpoints
     /// </returns>
     public static IEndpointRouteBuilder MapTodoApiRoutes(this IEndpointRouteBuilder builder)
     {
+        // Configure a group for the Todo API that includes metadata to provide
+        // examples for OpenAPI to use for error responses and IDs in request paths.
         var group = builder.MapGroup("/api/items")
                            .WithTags("TodoApp")
                            .WithMetadata(new OpenApiExampleAttribute<ProblemDetails, ProblemDetailsExampleProvider>())
                            .WithMetadata(new OpenApiIdExampleAttribute());
         {
+            // ASP.NET Core and Swashbuckle infer most of their information for the various
+            // endpoints from the endpoint methods themselves, or types they receive/return.
+            // NSwag is slightly different in how it works, so additional attributes are needed
+            // to add the additional context/metadata to produce an equivalent OpenAPI document.
             group.MapGet(
                 "/",
                 [NSwagOpenApiExample<TodoListViewModel>]
-                [OpenApiOperation("Get all Todo items", "Gets all of the current user's todo items.")]
-                [SwaggerResponse(StatusCodes.Status200OK, typeof(TodoListViewModel), Description = "OK")]
+                [NSwagOpenApiOperation("Get all Todo items", "Gets all of the current user's todo items.")]
+                [NSwagOpenApiResponse(StatusCodes.Status200OK, typeof(TodoListViewModel), Description = "OK")]
                 async (ITodoService service, CancellationToken cancellationToken) => await service.GetListAsync(cancellationToken))
                 .WithName("ListTodos")
                 .WithSummary("Get all Todo items")
@@ -84,9 +93,9 @@ public static class ApiEndpoints
                 "/{id}",
                 [NSwagOpenApiExample<ProblemDetails, ProblemDetailsExampleProvider>]
                 [NSwagOpenApiExample<TodoItemModel>]
-                [OpenApiOperation("Get a specific Todo item", "Gets the todo item with the specified ID.")]
-                [SwaggerResponse(StatusCodes.Status200OK, typeof(TodoItemModel), Description = "OK")]
-                [SwaggerResponse(StatusCodes.Status404NotFound, typeof(ProblemDetails), Description = "Not Found")]
+                [NSwagOpenApiOperation("Get a specific Todo item", "Gets the todo item with the specified ID.")]
+                [NSwagOpenApiResponse(StatusCodes.Status200OK, typeof(TodoItemModel), Description = "OK")]
+                [NSwagOpenApiResponse(StatusCodes.Status404NotFound, typeof(ProblemDetails), Description = "Not Found")]
                 async Task<Results<Ok<TodoItemModel>, ProblemHttpResult>> (
                     Guid id,
                     ITodoService service,
@@ -109,9 +118,9 @@ public static class ApiEndpoints
                 [NSwagOpenApiExample<CreateTodoItemModel>]
                 [NSwagOpenApiExample<CreatedTodoItemModel>]
                 [NSwagOpenApiExample<ProblemDetails, ProblemDetailsExampleProvider>]
-                [OpenApiOperation("Create a new Todo item", "Creates a new todo item for the current user and returns its ID.")]
-                [SwaggerResponse(StatusCodes.Status201Created, typeof(CreatedTodoItemModel), Description = "Created")]
-                [SwaggerResponse(StatusCodes.Status400BadRequest, typeof(ProblemDetails), Description = "Bad Request")]
+                [NSwagOpenApiOperation("Create a new Todo item", "Creates a new todo item for the current user and returns its ID.")]
+                [NSwagOpenApiResponse(StatusCodes.Status201Created, typeof(CreatedTodoItemModel), Description = "Created")]
+                [NSwagOpenApiResponse(StatusCodes.Status400BadRequest, typeof(ProblemDetails), Description = "Bad Request")]
                 async Task<Results<Created<CreatedTodoItemModel>, ProblemHttpResult>> (
                     CreateTodoItemModel model,
                     ITodoService service,
@@ -134,10 +143,10 @@ public static class ApiEndpoints
             group.MapPost(
                 "/{id}/complete",
                 [NSwagOpenApiExample<ProblemDetails, ProblemDetailsExampleProvider>]
-                [OpenApiOperation("Mark a Todo item as completed", "Marks the todo item with the specified ID as complete.")]
-                [SwaggerResponse(StatusCodes.Status204NoContent, typeof(void), Description = "No Content")]
-                [SwaggerResponse(StatusCodes.Status400BadRequest, typeof(ProblemDetails), Description = "Bad Request")]
-                [SwaggerResponse(StatusCodes.Status404NotFound, typeof(ProblemDetails), Description = "Not Found")]
+                [NSwagOpenApiOperation("Mark a Todo item as completed", "Marks the todo item with the specified ID as complete.")]
+                [NSwagOpenApiResponse(StatusCodes.Status204NoContent, typeof(void), Description = "No Content")]
+                [NSwagOpenApiResponse(StatusCodes.Status400BadRequest, typeof(ProblemDetails), Description = "Bad Request")]
+                [NSwagOpenApiResponse(StatusCodes.Status404NotFound, typeof(ProblemDetails), Description = "Not Found")]
                 async Task<Results<NoContent, ProblemHttpResult>> (
                     Guid id,
                     ITodoService service,
@@ -161,9 +170,9 @@ public static class ApiEndpoints
             group.MapDelete(
                 "/{id}",
                 [NSwagOpenApiExample<ProblemDetails, ProblemDetailsExampleProvider>]
-                [OpenApiOperation("Delete a Todo item", "Deletes the todo item with the specified ID.")]
-                [SwaggerResponse(StatusCodes.Status204NoContent, typeof(void), Description = "No Content")]
-                [SwaggerResponse(StatusCodes.Status404NotFound, typeof(ProblemDetails), Description = "Not Found")]
+                [NSwagOpenApiOperation("Delete a Todo item", "Deletes the todo item with the specified ID.")]
+                [NSwagOpenApiResponse(StatusCodes.Status204NoContent, typeof(void), Description = "No Content")]
+                [NSwagOpenApiResponse(StatusCodes.Status404NotFound, typeof(ProblemDetails), Description = "Not Found")]
                 async Task<Results<NoContent, ProblemHttpResult>> (
                     Guid id,
                     ITodoService service,
@@ -182,7 +191,7 @@ public static class ApiEndpoints
                 .WithDescription("Deletes the todo item with the specified ID.");
         };
 
-        // Redirect to Open API/Swagger documentation
+        // Redirect to OpenAPI (SwaggerUI) documentation
         builder.MapGet("/api", () => Results.Redirect("/swagger-ui/index.html"))
                .ExcludeFromDescription();
 

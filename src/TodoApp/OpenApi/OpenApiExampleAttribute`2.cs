@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Any;
 namespace TodoApp.OpenApi;
 
 /// <summary>
-/// An attribute representing an example for an OpenAPI operation parameter.
+/// An attribute representing an example for an OpenAPI operation or schema.
 /// </summary>
 /// <typeparam name="TSchema">The type of the schema.</typeparam>
 /// <typeparam name="TProvider">The type of the example provider.</typeparam>

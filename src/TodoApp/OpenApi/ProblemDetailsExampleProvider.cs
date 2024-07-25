@@ -8,7 +8,7 @@ namespace TodoApp.OpenApi;
 /// <summary>
 /// A class representing an example provider for <see cref="ProblemDetails"/>.
 /// </summary>
-public sealed class ProblemDetailsExampleProvider : IExampleProvider<ProblemDetails>
+public class ProblemDetailsExampleProvider : IExampleProvider<ProblemDetails>
 {
     public static ProblemDetails GenerateExample()
     {
