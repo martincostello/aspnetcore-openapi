@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace TodoApp.OpenApi.Swashbuckle;
 
 /// <summary>
-/// A class representing an operation filter that adds the example to use for display in Swagger documentation.
+/// A class representing an operation filter that adds the example to use for display in OpenAPI documentation.
 /// </summary>
 public class ExampleFilter : IOperationFilter, ISchemaFilter
 {
