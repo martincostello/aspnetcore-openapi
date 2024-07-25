@@ -1,0 +1,389 @@
+﻿{
+  openapi: 3.0.0,
+  info: {
+    title: Todo API (NSwag),
+    contact: {
+      name: Martin Costello,
+      url: https://www.martincostello.com
+    },
+    license: {
+      name: Apache 2.0,
+      url: https://www.apache.org/licenses/LICENSE-2.0
+    },
+    version: v1
+  },
+  servers: [
+    {
+      url: http://localhost
+    }
+  ],
+  paths: {
+    /api/items: {
+      get: {
+        tags: [
+          TodoApp
+        ],
+        summary: Get all Todo items,
+        description: Gets all of the current user's todo items.,
+        operationId: ListTodos,
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/TodoListViewModel
+                },
+                example: {
+                  items: [
+                    {
+                      id: Guid_1,
+                      text: Buy eggs 🥚,
+                      isCompleted: false
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      post: {
+        tags: [
+          TodoApp
+        ],
+        summary: Create a new Todo item,
+        description: Creates a new todo item for the current user and returns its ID.,
+        operationId: CreateTodo,
+        requestBody: {
+          content: {
+            application/json: {
+              schema: {
+                $ref: #/components/schemas/CreateTodoItemModel
+              }
+            }
+          },
+          required: true
+        },
+        responses: {
+          201: {
+            description: Created,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/CreatedTodoItemModel
+                },
+                example: {
+                  id: Guid_1
+                }
+              }
+            }
+          },
+          400: {
+            description: Bad Request,
+            content: {
+              application/problem+json: {
+                schema: {
+                  $ref: #/components/schemas/ProblemDetails
+                },
+                example: {
+                  type: https://tools.ietf.org/html/rfc7231#section-6.5.1,
+                  title: Bad Request,
+                  status: 400,
+                  detail: The specified value is invalid.
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /api/items/{id}: {
+      get: {
+        tags: [
+          TodoApp
+        ],
+        summary: Get a specific Todo item,
+        description: Gets the todo item with the specified ID.,
+        operationId: GetTodo,
+        parameters: [
+          {
+            name: id,
+            in: path,
+            required: true,
+            schema: {
+              type: string,
+              format: guid
+            },
+            example: Guid_1
+          }
+        ],
+        responses: {
+          200: {
+            description: OK,
+            content: {
+              application/json: {
+                schema: {
+                  $ref: #/components/schemas/TodoItemModel
+                },
+                example: {
+                  id: Guid_1,
+                  text: Buy eggs 🥚,
+                  isCompleted: false
+                }
+              }
+            }
+          },
+          404: {
+            description: Not Found,
+            content: {
+              application/problem+json: {
+                schema: {
+                  $ref: #/components/schemas/ProblemDetails
+                },
+                example: {
+                  type: https://tools.ietf.org/html/rfc7231#section-6.5.1,
+                  title: Bad Request,
+                  status: 400,
+                  detail: The specified value is invalid.
+                }
+              }
+            }
+          }
+        }
+      },
+      delete: {
+        tags: [
+          TodoApp
+        ],
+        summary: Delete a Todo item,
+        description: Deletes the todo item with the specified ID.,
+        operationId: DeleteTodo,
+        parameters: [
+          {
+            name: id,
+            in: path,
+            required: true,
+            schema: {
+              type: string,
+              format: guid
+            },
+            example: Guid_1
+          }
+        ],
+        responses: {
+          204: {
+            description: No Content
+          },
+          404: {
+            description: Not Found,
+            content: {
+              application/problem+json: {
+                schema: {
+                  $ref: #/components/schemas/ProblemDetails
+                },
+                example: {
+                  type: https://tools.ietf.org/html/rfc7231#section-6.5.1,
+                  title: Bad Request,
+                  status: 400,
+                  detail: The specified value is invalid.
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    /api/items/{id}/complete: {
+      post: {
+        tags: [
+          TodoApp
+        ],
+        summary: Mark a Todo item as completed,
+        description: Marks the todo item with the specified ID as complete.,
+        operationId: CompleteTodo,
+        parameters: [
+          {
+            name: id,
+            in: path,
+            required: true,
+            schema: {
+              type: string,
+              format: guid
+            },
+            example: Guid_1
+          }
+        ],
+        responses: {
+          204: {
+            description: No Content
+          },
+          400: {
+            description: Bad Request,
+            content: {
+              application/problem+json: {
+                schema: {
+                  $ref: #/components/schemas/ProblemDetails
+                },
+                example: {
+                  type: https://tools.ietf.org/html/rfc7231#section-6.5.1,
+                  title: Bad Request,
+                  status: 400,
+                  detail: The specified value is invalid.
+                }
+              }
+            }
+          },
+          404: {
+            description: Not Found,
+            content: {
+              application/problem+json: {
+                schema: {
+                  $ref: #/components/schemas/ProblemDetails
+                },
+                example: {
+                  type: https://tools.ietf.org/html/rfc7231#section-6.5.1,
+                  title: Bad Request,
+                  status: 400,
+                  detail: The specified value is invalid.
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  components: {
+    schemas: {
+      TodoListViewModel: {
+        type: object,
+        description: Represents a collection of Todo items.,
+        example: {
+          items: [
+            {
+              id: Guid_1,
+              text: Buy eggs 🥚,
+              isCompleted: false
+            }
+          ]
+        },
+        additionalProperties: false,
+        properties: {
+          items: {
+            type: array,
+            description: Gets or sets the Todo item(s).,
+            items: {
+              $ref: #/components/schemas/TodoItemModel
+            }
+          }
+        }
+      },
+      TodoItemModel: {
+        type: object,
+        description: Represents a Todo item.,
+        example: {
+          id: Guid_1,
+          text: Buy eggs 🥚,
+          isCompleted: false
+        },
+        additionalProperties: false,
+        properties: {
+          id: {
+            type: string,
+            description: Gets or sets the ID of the Todo item.
+          },
+          text: {
+            type: string,
+            description: Gets or sets the text of the Todo item.
+          },
+          isCompleted: {
+            type: boolean,
+            description: Gets or sets a value indicating whether the Todo item has been completed.
+          },
+          lastUpdated: {
+            type: string,
+            description: Gets or sets the date and time the Todo item was last updated.
+          }
+        }
+      },
+      ProblemDetails: {
+        type: object,
+        example: {
+          type: https://tools.ietf.org/html/rfc7231#section-6.5.1,
+          title: Bad Request,
+          status: 400,
+          detail: The specified value is invalid.
+        },
+        properties: {
+          type: {
+            type: string,
+            nullable: true
+          },
+          title: {
+            type: string,
+            nullable: true
+          },
+          status: {
+            type: integer,
+            format: int32,
+            nullable: true
+          },
+          detail: {
+            type: string,
+            nullable: true
+          },
+          instance: {
+            type: string,
+            nullable: true
+          }
+        }
+      },
+      CreatedTodoItemModel: {
+        type: object,
+        description: Represents the model for a created Todo item.,
+        example: {
+          id: Guid_1
+        },
+        additionalProperties: false,
+        properties: {
+          id: {
+            type: string,
+            description: Gets or sets the ID of the created Todo item.
+          }
+        }
+      },
+      CreateTodoItemModel: {
+        type: object,
+        description: Represents the model for creating a new Todo item.,
+        example: {
+          text: Buy eggs 🥚
+        },
+        additionalProperties: false,
+        properties: {
+          text: {
+            type: string,
+            description: Gets or sets the text of the Todo item.
+          }
+        }
+      }
+    },
+    securitySchemes: {
+      Bearer: {
+        type: http,
+        description: Bearer authentication using a JWT.,
+        in: header,
+        scheme: bearer,
+        bearerFormat: JSON Web Token
+      }
+    }
+  },
+  security: [
+    {}
+  ],
+  tags: [
+    {
+      name: TodoApp
+    }
+  ]
+}

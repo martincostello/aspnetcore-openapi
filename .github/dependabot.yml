@@ -14,6 +14,7 @@ updates:
 #  groups:
 #    xunit:
 #      patterns:
+#        - Verify.Xunit
 #        - xunit*
 #  schedule:
 #    day: friday
