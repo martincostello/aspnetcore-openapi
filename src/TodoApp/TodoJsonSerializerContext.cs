@@ -8,6 +8,9 @@ using TodoApp.Models;
 
 namespace TodoApp;
 
+/// <summary>
+/// A class that provides metadata for (de)serializing JSON for both the API endpoints and with OpenAPI.
+/// </summary>
 [JsonSerializable(typeof(CreateTodoItemModel))]
 [JsonSerializable(typeof(CreatedTodoItemModel))]
 [JsonSerializable(typeof(Guid))]
