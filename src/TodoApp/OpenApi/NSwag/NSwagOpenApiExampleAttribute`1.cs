@@ -3,7 +3,9 @@
 
 namespace TodoApp.OpenApi.NSwag;
 
+/// <summary>
+/// A class representing an example for a type for a NSwag OpenAPI operation or shema.
+/// </summary>
+/// <typeparam name="T">The type of the schema.</typeparam>
 public class NSwagOpenApiExampleAttribute<T> : NSwagOpenApiExampleAttribute<T, T>
-    where T : IExampleProvider<T>
-{
-}
+    where T : IExampleProvider<T>;

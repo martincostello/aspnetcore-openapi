@@ -5,7 +5,11 @@ using NSwag.Annotations;
 
 namespace TodoApp.OpenApi.NSwag;
 
-public class NSwagOpenApiExampleAttribute<TSchema, TProvider>() : OpenApiOperationProcessorAttribute(typeof(OpenApiOperationExampleProcessor<TSchema, TProvider>))
-    where TProvider : IExampleProvider<TSchema>
-{
-}
+/// <summary>
+/// A class representing an example for a type for a NSwag OpenAPI operation or shema.
+/// </summary>
+/// <typeparam name="TSchema">The type of the schema.</typeparam>
+/// <typeparam name="TProvider">The type of the example provider.</typeparam>
+public class NSwagOpenApiExampleAttribute<TSchema, TProvider>() :
+    OpenApiOperationProcessorAttribute(typeof(OpenApiOperationExampleProcessor<TSchema, TProvider>))
+    where TProvider : IExampleProvider<TSchema>;
