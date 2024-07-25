@@ -4,7 +4,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Any;
 
-namespace TodoApp;
+namespace TodoApp.OpenApi;
 
 /// <summary>
 /// An attribute representing an example for an OpenAPI operation parameter.

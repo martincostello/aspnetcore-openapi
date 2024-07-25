@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using NSwag.Annotations;
 using TodoApp.Data;
 using TodoApp.Models;
-using TodoApp.NSwag;
 using TodoApp.OpenApi;
+using TodoApp.OpenApi.NSwag;
 using TodoApp.Services;
 
 namespace TodoApp;

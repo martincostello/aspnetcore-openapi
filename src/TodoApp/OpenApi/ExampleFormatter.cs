@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Any;
 
-namespace TodoApp;
+namespace TodoApp.OpenApi;
 
 /// <summary>
 /// A class containing methods to help format JSON examples for OpenAPI.
@@ -37,7 +37,7 @@ internal static class ExampleFormatter
     public static IOpenApiAny AsJson<T>(T example, JsonSerializerContext context)
     {
         // Apply any formatting rules configured for the API (e.g. camel casing)
-        string? json = JsonSerializer.Serialize(example, typeof(T), context);
+        var json = JsonSerializer.Serialize(example, typeof(T), context);
         using var document = JsonDocument.Parse(json);
 
         if (document.RootElement.ValueKind == JsonValueKind.String)

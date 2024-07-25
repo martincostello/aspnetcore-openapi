@@ -3,57 +3,75 @@
 
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using TodoApp.OpenApi;
 
-namespace TodoApp.Swashbuckle;
+namespace TodoApp.OpenApi.AspNetCore;
 
 /// <summary>
-/// A class representing an operation filter that adds the example to use for display in Swagger documentation.
+/// A class representing an operation processor that adds examples to API endpoints.
 /// </summary>
-public class ExampleFilter : IOperationFilter, ISchemaFilter
+public class AddExamplesTransformer : IOpenApiOperationTransformer, IOpenApiSchemaTransformer
 {
     private static readonly TodoJsonSerializerContext Context = TodoJsonSerializerContext.Default;
 
     /// <inheritdoc />
-    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    public Task TransformAsync(
+        OpenApiOperation operation,
+        OpenApiOperationTransformerContext context,
+        CancellationToken cancellationToken)
     {
-        var examples = context.ApiDescription.ActionDescriptor.EndpointMetadata
+        var examples = context.Description.ActionDescriptor.EndpointMetadata
             .OfType<IOpenApiExampleMetadata>()
             .ToArray();
 
-        AddParameterExamples(operation.Parameters, context, examples);
-        AddResponseExamples(operation.Responses, context, examples);
+        if (operation.Parameters is { Count: > 0 } parameters)
+        {
+            TryAddParameterExamples(parameters, context, examples);
+        }
+
+        if (operation.RequestBody is { } body)
+        {
+            TryAddRequestExamples(body, context, examples);
+        }
+
+        TryAddResponseExamples(operation.Responses, context, examples);
+
+        return Task.CompletedTask;
     }
 
     /// <inheritdoc />
-    public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+    public Task TransformAsync(
+        OpenApiSchema schema,
+        OpenApiSchemaTransformerContext context,
+        CancellationToken cancellationToken)
     {
-        if (context.Type == typeof(ProblemDetails))
+        if (context.JsonTypeInfo.Type == typeof(ProblemDetails))
         {
             schema.Example = ExampleFormatter.AsJson<ProblemDetails, ProblemDetailsExampleProvider>(Context);
         }
         else
         {
-            var metadata = context.Type
-                .GetCustomAttributes()
+            var metadata = context.JsonTypeInfo.Type.GetCustomAttributes(false)
                 .OfType<IOpenApiExampleMetadata>()
                 .FirstOrDefault();
 
-            if (metadata != null)
+            if (metadata?.GenerateExample(Context) is { } value)
             {
-                schema.Example = metadata.GenerateExample(Context);
+                schema.Example = value;
             }
         }
+
+        return Task.CompletedTask;
     }
 
-    private static void AddParameterExamples(
+    private static void TryAddParameterExamples(
         IList<OpenApiParameter> parameters,
-        OperationFilterContext context,
+        OpenApiOperationTransformerContext context,
         IList<IOpenApiExampleMetadata> examples)
     {
-        var methodInfo = context.ApiDescription.ActionDescriptor.EndpointMetadata
+        var methodInfo = context.Description.ActionDescriptor.EndpointMetadata
             .OfType<MethodInfo>()
             .FirstOrDefault();
 
@@ -87,12 +105,36 @@ public class ExampleFilter : IOperationFilter, ISchemaFilter
         }
     }
 
-    private static void AddResponseExamples(
-        OpenApiResponses responses,
-        OperationFilterContext context,
+    private static void TryAddRequestExamples(
+        OpenApiRequestBody body,
+        OpenApiOperationTransformerContext context,
         IList<IOpenApiExampleMetadata> examples)
     {
-        foreach (var schemaResponse in context.ApiDescription.SupportedResponseTypes)
+        if (!body.Content.TryGetValue("application/json", out var mediaType) || mediaType.Example is not null)
+        {
+            return;
+        }
+
+        var bodyParameter = context.Description.ParameterDescriptions.Single((p) => p.Source == BindingSource.Body);
+
+        var metadata = bodyParameter.Type.GetCustomAttributes(false)
+            .OfType<IOpenApiExampleMetadata>()
+            .FirstOrDefault();
+
+        metadata ??= examples.FirstOrDefault((p) => p.SchemaType == bodyParameter.Type);
+
+        if (metadata is not null)
+        {
+            mediaType.Example ??= metadata.GenerateExample(Context);
+        }
+    }
+
+    private static void TryAddResponseExamples(
+        OpenApiResponses responses,
+        OpenApiOperationTransformerContext context,
+        IList<IOpenApiExampleMetadata> examples)
+    {
+        foreach (var schemaResponse in context.Description.SupportedResponseTypes)
         {
             var metadata = schemaResponse.Type?.GetCustomAttributes()
                 .OfType<IOpenApiExampleMetadata>()

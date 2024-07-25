@@ -10,7 +10,7 @@ using NSwag.Generation.AspNetCore;
 using NSwag.Generation.Processors;
 using NSwag.Generation.Processors.Contexts;
 
-namespace TodoApp.NSwag;
+namespace TodoApp.OpenApi.NSwag;
 
 /// <summary>
 /// A class representing an processor for OpenAPI operation examples.

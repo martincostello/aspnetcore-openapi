@@ -9,7 +9,7 @@ using System.Xml.XPath;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 
-namespace TodoApp;
+namespace TodoApp.OpenApi.AspNetCore;
 
 /// <summary>
 /// An OpenAPI schema transformer that adds descriptions from XML documentation.
@@ -34,7 +34,7 @@ public class AddSchemaDescriptionsTransformer : IOpenApiSchemaTransformer
 
     private string? GetDescription(string memberName)
     {
-        if (_descriptions.TryGetValue(memberName, out string? description))
+        if (_descriptions.TryGetValue(memberName, out var description))
         {
             return description;
         }
@@ -61,8 +61,8 @@ public class AddSchemaDescriptionsTransformer : IOpenApiSchemaTransformer
         }
         else if (propertyInfo is not null)
         {
-            string? typeName = propertyInfo.DeclaringType.FullName;
-            string propertyName =
+            var typeName = propertyInfo.DeclaringType.FullName;
+            var propertyName =
                 propertyInfo.AttributeProvider is PropertyInfo property ?
                 property.Name :
                 $"{char.ToUpperInvariant(propertyInfo.Name[0])}{propertyInfo.Name[1..]}";
@@ -79,7 +79,7 @@ public class AddSchemaDescriptionsTransformer : IOpenApiSchemaTransformer
     {
         if (_navigator is null)
         {
-            string path = Path.Combine(AppContext.BaseDirectory, $"{_thisAssembly.GetName().Name}.xml");
+            var path = Path.Combine(AppContext.BaseDirectory, $"{_thisAssembly.GetName().Name}.xml");
             using var reader = XmlReader.Create(path);
             _navigator = new XPathDocument(reader).CreateNavigator();
         }

@@ -3,7 +3,7 @@
 
 using NSwag.Annotations;
 
-namespace TodoApp.NSwag;
+namespace TodoApp.OpenApi.NSwag;
 
 public class NSwagOpenApiExampleAttribute<TSchema, TProvider>() : OpenApiOperationProcessorAttribute(typeof(OpenApiOperationExampleProcessor<TSchema, TProvider>))
     where TProvider : IExampleProvider<TSchema>
