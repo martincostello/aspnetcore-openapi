@@ -8,6 +8,4 @@ namespace TodoApp.OpenApi;
 /// </summary>
 /// <typeparam name="T">The type of the schema.</typeparam>
 public sealed class OpenApiExampleAttribute<T>() : OpenApiExampleAttribute<T, T>()
-    where T : IExampleProvider<T>
-{
-}
+    where T : IExampleProvider<T>;
