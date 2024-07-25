@@ -4,7 +4,7 @@
     title: Todo API (ASP.NET Core OpenAPI),
     contact: {
       name: Martin Costello,
-      url: https://www.martincostello.com
+      url: https://github.com/martincostello/aspnetcore-openapi
     },
     license: {
       name: Apache 2.0,
