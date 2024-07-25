@@ -4,7 +4,7 @@
     title: Todo API (Swashbuckle.AspNetCore),
     contact: {
       name: Martin Costello,
-      url: https://www.martincostello.com
+      url: https://github.com/martincostello/aspnetcore-openapi
     },
     license: {
       name: Apache 2.0,
@@ -55,6 +55,9 @@
             application/json: {
               schema: {
                 $ref: #/components/schemas/CreateTodoItemModel
+              },
+              example: {
+                text: Buy eggs 🥚
               }
             }
           },
