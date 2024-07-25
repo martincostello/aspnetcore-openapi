@@ -1,10 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace TodoApp.OpenApi.Swashbuckle;
 
@@ -14,22 +11,27 @@ public static class SwashbuckleOpenApiEndpoints
     {
         services.AddSwaggerGen((options) =>
         {
-            options.SwaggerDoc("v1", new()
+            var info = new OpenApiInfo()
             {
+                // Add a title and version for the OpenAPI document
+                Title = "Todo API (Swashbuckle.AspNetCore)",
+                Version = "v1",
+                // Add contact and license details for the API
                 Contact = new()
                 {
                     Name = "Martin Costello",
-                    Url = new("https://www.martincostello.com"),
+                    Url = new("https://github.com/martincostello/aspnetcore-openapi"),
                 },
                 License = new()
                 {
                     Name = "Apache 2.0",
                     Url = new("https://www.apache.org/licenses/LICENSE-2.0"),
-                },
-                Title = "Todo API (Swashbuckle.AspNetCore)",
-                Version = "v1"
-            });
+                }
+            };
 
+            options.SwaggerDoc(info.Version, info);
+
+            // Configure bearer authentication using a JWT
             var scheme = new OpenApiSecurityScheme()
             {
                 BearerFormat = "JSON Web Token",
@@ -46,12 +48,19 @@ public static class SwashbuckleOpenApiEndpoints
             options.AddSecurityDefinition(scheme.Reference.Id, scheme);
             options.AddSecurityRequirement(new() { [scheme] = [] });
 
+            // Enable reading OpenAPI metadata from attributes
             options.EnableAnnotations();
+
+            // Configure adding XML comments to operations and schemas
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "TodoApp.xml"));
 
+            // Add filters to add document-level tags to the OpenAPI document
             options.DocumentFilter<AddDocumentTagsFilter>();
+
+            // Add server information to the OpenAPI document
             options.DocumentFilter<AddServersFilter>();
 
+            // Add filters to add examples to the OpenAPI document
             options.OperationFilter<ExampleFilter>();
             options.SchemaFilter<ExampleFilter>();
         });
@@ -65,25 +74,5 @@ public static class SwashbuckleOpenApiEndpoints
         builder.UseSwagger();
 
         return builder;
-    }
-
-    public class AddDocumentTagsFilter : IDocumentFilter
-    {
-        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
-        {
-            swaggerDoc.Tags.Add(new() { Name = "TodoApp" });
-        }
-    }
-
-    public class AddServersFilter(IHostEnvironment environment, IServer server) : IDocumentFilter
-    {
-        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
-        {
-            if (environment.IsDevelopment() &&
-                server.Features.Get<IServerAddressesFeature>()?.Addresses is { Count: > 0 } addresses)
-            {
-                swaggerDoc.Servers = addresses.Select(address => new OpenApiServer { Url = address }).ToList();
-            }
-        }
     }
 }

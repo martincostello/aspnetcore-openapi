@@ -11,15 +11,18 @@ public static class AspNetCoreOpenApiEndpoints
     {
         services.AddOpenApi(options =>
         {
+            // Add a document transformer to customise the generated OpenAPI document
             options.AddDocumentTransformer((document, _, _) =>
             {
+                // Add a title and version for the OpenAPI document
                 document.Info.Title = "Todo API (ASP.NET Core OpenAPI)";
                 document.Info.Version = "v1";
 
+                // Add contact and license details for the API
                 document.Info.Contact = new()
                 {
                     Name = "Martin Costello",
-                    Url = new("https://www.martincostello.com"),
+                    Url = new("https://github.com/martincostello/aspnetcore-openapi"),
                 };
 
                 document.Info.License = new()
@@ -28,6 +31,7 @@ public static class AspNetCoreOpenApiEndpoints
                     Url = new("https://www.apache.org/licenses/LICENSE-2.0"),
                 };
 
+                // Configure bearer authentication using a JWT
                 var scheme = new OpenApiSecurityScheme()
                 {
                     BearerFormat = "JSON Web Token",

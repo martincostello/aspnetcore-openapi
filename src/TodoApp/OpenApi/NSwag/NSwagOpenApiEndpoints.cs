@@ -4,8 +4,6 @@
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using NSwag;
-using NSwag.Generation.Processors;
-using NSwag.Generation.Processors.Contexts;
 
 namespace TodoApp.OpenApi.NSwag;
 
@@ -15,15 +13,18 @@ public static class NSwagOpenApiEndpoints
     {
         services.AddOpenApiDocument(options =>
         {
+            // Add a title and version for the OpenAPI document
             options.Title = "Todo API (NSwag)";
             options.Version = "v1";
 
+            // Configure a delegate to customize the generated OpenAPI document
             options.PostProcess = document =>
             {
+                // Add contact and license details for the API
                 document.Info.Contact = new()
                 {
                     Name = "Martin Costello",
-                    Url = "https://www.martincostello.com",
+                    Url = "https://github.com/martincostello/aspnetcore-openapi",
                 };
 
                 document.Info.License = new()
@@ -32,6 +33,7 @@ public static class NSwagOpenApiEndpoints
                     Url = "https://www.apache.org/licenses/LICENSE-2.0",
                 };
 
+                // Configure bearer authentication using a JWT
                 document.SecurityDefinitions.Add("Bearer", new()
                 {
                     BearerFormat = "JSON Web Token",
@@ -42,6 +44,7 @@ public static class NSwagOpenApiEndpoints
                 });
                 document.Security.Add(new() { ["Bearer"] = [] });
 
+                // Add document-level tags
                 document.Tags.Add(new() { Name = "TodoApp" });
 
                 // Remove the NSwag generator information
@@ -51,8 +54,8 @@ public static class NSwagOpenApiEndpoints
             // Update errors to have a media type of "application/problem+json"
             options.OperationProcessors.Add(new UpdateProblemDetailsMediaTypeProcessor());
 
-            // Remove NSwag-specific extension properties from parameters
-            options.OperationProcessors.Add(new RemoveNSwagExtensions());
+            // Remove NSwag-specific extension properties from the operations
+            options.OperationProcessors.Add(new RemoveNSwagExtensionsProcessor());
         });
 
         return services;
@@ -63,9 +66,10 @@ public static class NSwagOpenApiEndpoints
     {
         builder.UseOpenApi(settings =>
         {
+            // Configure the path for the OpenAPI document to not collide with the default for ASP.NET Core
             settings.Path = "/nswag/{documentName}.json";
 
-            // Show HTTP and HTTPS servers to match OpenAPI and Swashbuckle
+            // Show HTTP and HTTPS servers when developing locally to match ASP.NET Core
             var environment = builder.ApplicationServices.GetRequiredService<IHostEnvironment>();
             if (environment.IsDevelopment())
             {
@@ -88,49 +92,5 @@ public static class NSwagOpenApiEndpoints
         });
 
         return builder;
-    }
-
-    public class RemoveNSwagExtensions : IOperationProcessor
-    {
-        public bool Process(OperationProcessorContext context)
-        {
-            foreach (var parameter in context.Parameters.Values)
-            {
-                parameter.Position = null;
-
-                if (parameter.Kind is OpenApiParameterKind.Body)
-                {
-                    parameter.Name = null;
-                }
-            }
-
-            return true;
-        }
-    }
-
-    public class UpdateProblemDetailsMediaTypeProcessor : IOperationProcessor
-    {
-        public bool Process(OperationProcessorContext context)
-        {
-            foreach ((var status, var response) in context.OperationDescription.Operation.Responses)
-            {
-                if (status.StartsWith('2'))
-                {
-                    continue;
-                }
-
-                foreach ((var key, var mediaType) in response.Content.ToDictionary())
-                {
-                    if (key is "application/json")
-                    {
-                        var responses = context.OperationDescription.Operation.Responses[status];
-                        responses.Content["application/problem+json"] = mediaType;
-                        responses.Content.Remove(key);
-                    }
-                }
-            }
-
-            return true;
-        }
     }
 }
