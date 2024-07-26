@@ -32,7 +32,7 @@
                 example: {
                   items: [
                     {
-                      id: Guid_1,
+                      id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
                       text: Buy eggs 🥚,
                       isCompleted: false
                     }
@@ -72,7 +72,7 @@
                   $ref: #/components/schemas/CreatedTodoItemModel
                 },
                 example: {
-                  id: Guid_1
+                  id: a03952ca-880e-4af7-9cfa-630be0feb4a5
                 }
               }
             }
@@ -113,7 +113,7 @@
               type: string,
               format: uuid
             },
-            example: Guid_1
+            example: a03952ca-880e-4af7-9cfa-630be0feb4a5
           }
         ],
         responses: {
@@ -125,7 +125,7 @@
                   $ref: #/components/schemas/TodoItemModel
                 },
                 example: {
-                  id: Guid_1,
+                  id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
                   text: Buy eggs 🥚,
                   isCompleted: false
                 }
@@ -166,7 +166,7 @@
               type: string,
               format: uuid
             },
-            example: Guid_1
+            example: a03952ca-880e-4af7-9cfa-630be0feb4a5
           }
         ],
         responses: {
@@ -209,7 +209,7 @@
               type: string,
               format: uuid
             },
-            example: Guid_1
+            example: a03952ca-880e-4af7-9cfa-630be0feb4a5
           }
         ],
         responses: {

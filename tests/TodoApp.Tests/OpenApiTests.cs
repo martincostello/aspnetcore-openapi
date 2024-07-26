@@ -51,6 +51,8 @@ public class OpenApiTests
 
         // Assert
         var settings = new VerifySettings();
+        settings.DontScrubDateTimes();
+        settings.DontScrubGuids();
         settings.UseParameters(provider);
 
         await Verifier.VerifyJson(actual, settings);
