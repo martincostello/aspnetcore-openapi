@@ -37,7 +37,7 @@
                 example: {
                   items: [
                     {
-                      id: Guid_1,
+                      id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
                       text: Buy eggs 🥚,
                       isCompleted: false
                     }
@@ -74,7 +74,7 @@
                   $ref: #/components/schemas/CreatedTodoItemModel
                 },
                 example: {
-                  id: Guid_1
+                  id: a03952ca-880e-4af7-9cfa-630be0feb4a5
                 }
               }
             }
@@ -115,7 +115,7 @@
               type: string,
               format: guid
             },
-            example: Guid_1
+            example: a03952ca-880e-4af7-9cfa-630be0feb4a5
           }
         ],
         responses: {
@@ -127,7 +127,7 @@
                   $ref: #/components/schemas/TodoItemModel
                 },
                 example: {
-                  id: Guid_1,
+                  id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
                   text: Buy eggs 🥚,
                   isCompleted: false
                 }
@@ -168,7 +168,7 @@
               type: string,
               format: guid
             },
-            example: Guid_1
+            example: a03952ca-880e-4af7-9cfa-630be0feb4a5
           }
         ],
         responses: {
@@ -211,7 +211,7 @@
               type: string,
               format: guid
             },
-            example: Guid_1
+            example: a03952ca-880e-4af7-9cfa-630be0feb4a5
           }
         ],
         responses: {
@@ -262,7 +262,7 @@
         example: {
           items: [
             {
-              id: Guid_1,
+              id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
               text: Buy eggs 🥚,
               isCompleted: false
             }
@@ -283,7 +283,7 @@
         type: object,
         description: Represents a Todo item.,
         example: {
-          id: Guid_1,
+          id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
           text: Buy eggs 🥚,
           isCompleted: false
         },
@@ -343,7 +343,7 @@
         type: object,
         description: Represents the model for a created Todo item.,
         example: {
-          id: Guid_1
+          id: a03952ca-880e-4af7-9cfa-630be0feb4a5
         },
         additionalProperties: false,
         properties: {
