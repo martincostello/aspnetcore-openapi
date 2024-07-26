@@ -16,7 +16,6 @@ public abstract class ExamplesProcessor
 {
     private static readonly TodoJsonSerializerContext Context = TodoJsonSerializerContext.Default;
 
-    /// <inheritdoc />
     protected void Process(OpenApiOperation operation, ApiDescription description)
     {
         // Get all the examples that may apply to the operation through attributes
@@ -38,7 +37,6 @@ public abstract class ExamplesProcessor
         TryAddResponseExamples(operation.Responses, description, examples);
     }
 
-    /// <inheritdoc />
     protected void Process(OpenApiSchema schema, Type type)
     {
         if (schema.Example is not null)
