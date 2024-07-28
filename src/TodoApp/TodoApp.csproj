@@ -4,6 +4,10 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>false</IsPackable>
     <NoWarn>$(NoWarn);CA1019;CA1050;CA1813;CS1591</NoWarn>
+    <OpenApiDocumentsDirectory>$([System.IO.Path]::Combine($(ArtifactsPath), 'openapi'))</OpenApiDocumentsDirectory>
+    <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
+    <OpenApiGenerateDocumentsOnBuild>true</OpenApiGenerateDocumentsOnBuild>
+    <OpenApiGenerateDocumentsOptions>--openapi-version OpenApi3_0</OpenApiGenerateDocumentsOptions>
     <RootNamespace>TodoApp</RootNamespace>
     <TargetFramework>net9.0</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
@@ -12,6 +16,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-preview.7.24372.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0-preview.7.24372.2" />
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="9.0.0-preview.7.24372.9" PrivateAssets="all" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.5.3" PrivateAssets="all" />
     <PackageReference Include="NSwag.AspNetCore" Version="14.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />

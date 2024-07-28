@@ -60,3 +60,9 @@ jobs:
     - name: Build and Test
       shell: pwsh
       run: ./build.ps1
+
+    - name: Install Spectral
+      run: npm install -g @stoplight/spectral-cli
+
+    - name: Run Spectral
+      run: spectral lint "./artifacts/openapi/*" --fail-severity warn --format github-actions
