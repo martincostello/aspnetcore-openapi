@@ -16,6 +16,7 @@ public static class AspNetCoreOpenApiEndpoints
             {
                 // Add a title and version for the OpenAPI document
                 document.Info.Title = "Todo API (ASP.NET Core OpenAPI)";
+                document.Info.Description = "An API for managing Todo items.";
                 document.Info.Version = "v1";
 
                 // Add contact and license details for the API

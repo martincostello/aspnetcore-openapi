@@ -15,6 +15,7 @@ public static class NSwagOpenApiEndpoints
         {
             // Add a title and version for the OpenAPI document
             options.Title = "Todo API (NSwag)";
+            options.Description = "An API for managing Todo items.";
             options.Version = "v1";
 
             // Configure a delegate to customize the generated OpenAPI document

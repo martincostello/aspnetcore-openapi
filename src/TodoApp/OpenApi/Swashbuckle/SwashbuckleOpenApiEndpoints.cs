@@ -15,6 +15,7 @@ public static class SwashbuckleOpenApiEndpoints
             {
                 // Add a title and version for the OpenAPI document
                 Title = "Todo API (Swashbuckle.AspNetCore)",
+                Description = "An API for managing Todo items.",
                 Version = "v1",
                 // Add contact and license details for the API
                 Contact = new()
