@@ -2,6 +2,7 @@
   openapi: 3.0.1,
   info: {
     title: Todo API (ASP.NET Core OpenAPI),
+    description: An API for managing Todo items.,
     contact: {
       name: Martin Costello,
       url: https://github.com/martincostello/aspnetcore-openapi
