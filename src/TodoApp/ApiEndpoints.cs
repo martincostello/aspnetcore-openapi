@@ -87,7 +87,8 @@ public static class ApiEndpoints
                 async (ITodoService service, CancellationToken cancellationToken) => await service.GetListAsync(cancellationToken))
                 .WithName("ListTodos")
                 .WithSummary("Get all Todo items")
-                .WithDescription("Gets all of the current user's todo items.");
+                .WithDescription("Gets all of the current user's todo items.")
+                .Produces<TodoListViewModel>(StatusCodes.Status200OK);
 
             group.MapGet(
                 "/{id}",
@@ -108,6 +109,7 @@ public static class ApiEndpoints
                         _ => TypedResults.Ok(model),
                     };
                 })
+                .Produces<TodoItemModel>(StatusCodes.Status200OK)
                 .ProducesProblem(StatusCodes.Status404NotFound)
                 .WithName("GetTodo")
                 .WithSummary("Get a specific Todo item")
@@ -135,6 +137,7 @@ public static class ApiEndpoints
 
                     return TypedResults.Created($"/api/items/{id}", new CreatedTodoItemModel() { Id = id });
                 })
+                .Produces<CreatedTodoItemModel>(StatusCodes.Status201Created)
                 .ProducesProblem(StatusCodes.Status400BadRequest)
                 .WithName("CreateTodo")
                 .WithSummary("Create a new Todo item")
@@ -161,6 +164,7 @@ public static class ApiEndpoints
                         _ => TypedResults.Problem("Item not found.", statusCode: StatusCodes.Status404NotFound),
                     };
                 })
+                .Produces(StatusCodes.Status204NoContent)
                 .ProducesProblem(StatusCodes.Status400BadRequest)
                 .ProducesProblem(StatusCodes.Status404NotFound)
                 .WithName("CompleteTodo")
@@ -185,6 +189,7 @@ public static class ApiEndpoints
                         false => TypedResults.Problem("Item not found.", statusCode: StatusCodes.Status404NotFound),
                     };
                 })
+                .Produces(StatusCodes.Status204NoContent)
                 .ProducesProblem(StatusCodes.Status404NotFound)
                 .WithName("DeleteTodo")
                 .WithSummary("Delete a Todo item")
