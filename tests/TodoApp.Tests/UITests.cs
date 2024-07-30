@@ -30,7 +30,7 @@ public class UITests : IAsyncLifetime
             { BrowserType.Firefox, null },
         };
 
-        // HACK Skip on macOS. See https://github.com/microsoft/playwright-dotnet/issues/2920.
+        // Skip on macOS. See https://github.com/microsoft/playwright-dotnet/issues/2920.
         if (!OperatingSystem.IsLinux() && !OperatingSystem.IsMacOS())
         {
             browsers.Add(BrowserType.Chromium, "msedge");

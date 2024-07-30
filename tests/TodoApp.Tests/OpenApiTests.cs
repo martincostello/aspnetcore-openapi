@@ -26,8 +26,10 @@ public class OpenApiTests
     public static TheoryData<string> OpenApiUrls() => new()
     {
         { "/nswag/v1.json" },
-        { "/openapi/v1.json" },
-        { "/swagger/v1/swagger.json" },
+        //// HACK Disabled due to https://github.com/dotnet/aspnetcore/issues/56975 and
+        //// https://github.com/dotnet/aspnetcore/issues/56990
+        ////{ "/openapi/v1.json" },
+        ////{ "/swagger/v1/swagger.json" },
     };
 
     [Theory]
@@ -36,13 +38,6 @@ public class OpenApiTests
     {
         // Arrange
         var provider = schemaUrl.Split('/')[1];
-
-        if (provider is "openapi")
-        {
-            // HACK The schema changes after the first request.
-            // See https://github.com/dotnet/aspnetcore/issues/56990.
-            return;
-        }
 
         using var client = Fixture.CreateDefaultClient();
 
