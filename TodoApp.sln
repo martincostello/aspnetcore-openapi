@@ -63,6 +63,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\lint.yml = .github\workflows\lint.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "perf", "perf", "{87734002-38FC-4F18-BB83-E1992C7B98D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoApp.Benchmarks", "perf\TodoApp.Benchmarks\TodoApp.Benchmarks.csproj", "{422C806D-1B71-4DDC-B62E-B53F18E72449}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +81,10 @@ Global
 		{4C240082-6C0D-4033-AF81-3CBF2B2777AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C240082-6C0D-4033-AF81-3CBF2B2777AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C240082-6C0D-4033-AF81-3CBF2B2777AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{422C806D-1B71-4DDC-B62E-B53F18E72449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{422C806D-1B71-4DDC-B62E-B53F18E72449}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{422C806D-1B71-4DDC-B62E-B53F18E72449}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{422C806D-1B71-4DDC-B62E-B53F18E72449}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +96,7 @@ Global
 		{62E14D54-FE91-4A24-A7D2-82661587A2DC} = {813B2DEF-0737-4242-8AB4-CF0725752CD0}
 		{25891391-7F49-4621-8A74-EEAB11D4A778} = {62E14D54-FE91-4A24-A7D2-82661587A2DC}
 		{86E6F5AB-6537-4A16-B5FD-2B6070F99EE0} = {62E14D54-FE91-4A24-A7D2-82661587A2DC}
+		{422C806D-1B71-4DDC-B62E-B53F18E72449} = {87734002-38FC-4F18-BB83-E1992C7B98D4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {242240D8-68EA-4CBF-8E67-D955866F20ED}
