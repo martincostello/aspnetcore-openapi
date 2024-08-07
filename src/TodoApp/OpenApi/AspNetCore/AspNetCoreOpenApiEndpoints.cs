@@ -10,7 +10,6 @@ public static class AspNetCoreOpenApiEndpoints
 {
     public static IServiceCollection AddAspNetCoreOpenApi(this IServiceCollection services)
     {
-        services.AddSingleton<IOpenApiSchemaTransformer, AddSchemaDescriptionsTransformer>();
         services.AddOpenApi(options =>
         {
             // Add a document transformer to customise the generated OpenAPI document
@@ -57,7 +56,8 @@ public static class AspNetCoreOpenApiEndpoints
             });
 
             // Add a custom schema transformer to add descriptions from XML comments
-            options.AddSchemaTransformer<AddSchemaDescriptionsTransformer>();
+            var descriptions = new AddSchemaDescriptionsTransformer();
+            options.AddSchemaTransformer(descriptions);
 
             // Add transformer to add examples to OpenAPI parameters, requests, responses and schemas
             var examples = new AddExamplesTransformer();
