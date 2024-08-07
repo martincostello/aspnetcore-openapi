@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TodoApp.Benchmarks": {
+      "commandName": "Project",
+      "commandLineArgs": ""
+    }
+  }
+}
