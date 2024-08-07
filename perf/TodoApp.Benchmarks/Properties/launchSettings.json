@@ -2,7 +2,7 @@
   "profiles": {
     "TodoApp.Benchmarks": {
       "commandName": "Project",
-      "commandLineArgs": "--test"
+      "commandLineArgs": ""
     }
   }
 }
