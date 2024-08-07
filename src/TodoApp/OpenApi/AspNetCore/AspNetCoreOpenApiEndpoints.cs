@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
 
 namespace TodoApp.OpenApi.AspNetCore;
@@ -9,6 +10,7 @@ public static class AspNetCoreOpenApiEndpoints
 {
     public static IServiceCollection AddAspNetCoreOpenApi(this IServiceCollection services)
     {
+        services.AddSingleton<IOpenApiSchemaTransformer, AddSchemaDescriptionsTransformer>();
         services.AddOpenApi(options =>
         {
             // Add a document transformer to customise the generated OpenAPI document
