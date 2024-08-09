@@ -14,7 +14,6 @@ namespace TodoApp;
 
 [EventPipeProfiler(EventPipeProfile.CpuSampling)]
 [MemoryDiagnoser]
-[ShortRunJob]
 public class OpenApiBenchmarks : IAsyncDisposable
 {
     private WebApplication? _app;
