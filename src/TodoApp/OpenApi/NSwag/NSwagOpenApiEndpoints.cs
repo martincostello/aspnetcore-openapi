@@ -90,6 +90,11 @@ public static class NSwagOpenApiEndpoints
                     }
                 };
             };
+
+            // For the purposes of comparison with the other implementations in the benchmarks,
+            // disable document caching. Otherwise, NSwag will only generate the OpenAPI document
+            // once and every request for the OpenAPI document becomes essentially "free".
+            settings.CreateDocumentCacheKey = (_) => Guid.NewGuid().ToString();
         });
 
         return builder;
