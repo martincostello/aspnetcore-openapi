@@ -14,7 +14,7 @@ namespace TodoApp;
 
 [EventPipeProfiler(EventPipeProfile.CpuSampling)]
 [MemoryDiagnoser]
-[ShortRunJob]
+[ShortRunJob] // TODO Remove once https://github.com/dotnet/aspnetcore/issues/56990 is resolved
 public class OpenApiBenchmarks : IAsyncDisposable
 {
     private WebApplication? _app;
