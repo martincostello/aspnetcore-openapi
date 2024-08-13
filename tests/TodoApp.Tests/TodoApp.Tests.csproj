@@ -11,7 +11,7 @@
     <PackageReference Include="MartinCostello.Logging.XUnit" Version="0.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0-rc.1.24452.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.21" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.20" />
     <PackageReference Include="Microsoft.Playwright" Version="1.46.0" />
     <PackageReference Include="Verify.Xunit" Version="26.4.4" />
     <PackageReference Include="xunit" Version="2.9.0" />
