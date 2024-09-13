@@ -39,7 +39,7 @@ jobs:
         args: -color
 
     - name: Lint markdown
-      uses: DavidAnson/markdownlint-cli2-action@v16
+      uses: DavidAnson/markdownlint-cli2-action@v17
       with:
         config: '.markdownlint.json'
         globs: |
