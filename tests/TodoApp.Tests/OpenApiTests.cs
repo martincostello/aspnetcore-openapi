@@ -26,10 +26,8 @@ public class OpenApiTests
     public static TheoryData<string> OpenApiUrls() => new()
     {
         { "/nswag/v1.json" },
-        //// HACK Disabled due to https://github.com/dotnet/aspnetcore/issues/56975 and
-        //// https://github.com/dotnet/aspnetcore/issues/56990
-        ////{ "/openapi/v1.json" },
-        ////{ "/swagger/v1/swagger.json" },
+        { "/openapi/v1.json" },
+        { "/swagger/v1/swagger.json" },
     };
 
     [Theory]
