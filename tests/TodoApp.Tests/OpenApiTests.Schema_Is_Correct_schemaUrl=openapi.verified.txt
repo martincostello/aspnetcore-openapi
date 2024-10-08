@@ -263,7 +263,10 @@
             description: Gets or sets the ID of the created Todo item.
           }
         },
-        description: Represents the model for a created Todo item.
+        description: Represents the model for a created Todo item.,
+        example: {
+          id: a03952ca-880e-4af7-9cfa-630be0feb4a5
+        }
       },
       CreateTodoItemModel: {
         type: object,
@@ -273,7 +276,10 @@
             description: Gets or sets the text of the Todo item.
           }
         },
-        description: Represents the model for creating a new Todo item.
+        description: Represents the model for creating a new Todo item.,
+        example: {
+          text: Buy eggs 🥚
+        }
       },
       ProblemDetails: {
         type: object,
@@ -299,6 +305,12 @@
             type: string,
             nullable: true
           }
+        },
+        example: {
+          type: https://tools.ietf.org/html/rfc7231#section-6.5.1,
+          title: Bad Request,
+          status: 400,
+          detail: The specified value is invalid.
         }
       },
       TodoItemModel: {
@@ -321,7 +333,12 @@
             description: Gets or sets the date and time the Todo item was last updated.
           }
         },
-        description: Represents a Todo item.
+        description: Represents a Todo item.,
+        example: {
+          id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
+          text: Buy eggs 🥚,
+          isCompleted: false
+        }
       },
       TodoListViewModel: {
         type: object,
@@ -334,7 +351,16 @@
             description: Gets or sets the Todo item(s).
           }
         },
-        description: Represents a collection of Todo items.
+        description: Represents a collection of Todo items.,
+        example: {
+          items: [
+            {
+              id: a03952ca-880e-4af7-9cfa-630be0feb4a5,
+              text: Buy eggs 🥚,
+              isCompleted: false
+            }
+          ]
+        }
       }
     },
     securitySchemes: {
