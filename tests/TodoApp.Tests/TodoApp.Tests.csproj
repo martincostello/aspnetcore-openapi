@@ -13,9 +13,9 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.22" />
     <PackageReference Include="Microsoft.Playwright" Version="1.49.0" />
-    <PackageReference Include="Verify.Xunit" Version="28.4.0" />
+    <PackageReference Include="Verify.Xunit" Version="28.6.1" />
     <PackageReference Include="xunit" Version="2.9.2" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="xunit.runner.json;xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
