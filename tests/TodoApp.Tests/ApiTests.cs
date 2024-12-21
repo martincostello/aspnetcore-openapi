@@ -22,6 +22,8 @@ public class ApiTests
         Fixture.SetOutputHelper(OutputHelper);
     }
 
+    public virtual CancellationToken CancellationToken => TestContext.Current.CancellationToken;
+
     private TodoAppFixture Fixture { get; }
 
     private ITestOutputHelper OutputHelper { get; }
@@ -33,7 +35,7 @@ public class ApiTests
         using var client = Fixture.CreateDefaultClient();
 
         // Act - Get all the items
-        var items = await client.GetFromJsonAsync<TodoListViewModel>("/api/items");
+        var items = await client.GetFromJsonAsync<TodoListViewModel>("/api/items", CancellationToken);
 
         // Assert - There should be no items
         Assert.NotNull(items);
@@ -46,20 +48,20 @@ public class ApiTests
         var newItem = new CreateTodoItemModel { Text = text };
 
         // Act - Add a new item
-        using var createdResponse = await client.PostAsJsonAsync("/api/items", newItem);
+        using var createdResponse = await client.PostAsJsonAsync("/api/items", newItem, CancellationToken);
 
         // Assert - An item was created
         Assert.Equal(HttpStatusCode.Created, createdResponse.StatusCode);
         Assert.NotNull(createdResponse.Headers.Location);
 
-        using var createdJson = await createdResponse.Content.ReadFromJsonAsync<JsonDocument>();
+        using var createdJson = await createdResponse.Content.ReadFromJsonAsync<JsonDocument>(CancellationToken);
 
         // Arrange - Get the new item's URL and Id
         var itemUri = createdResponse.Headers.Location;
         var itemId = createdJson!.RootElement.GetProperty("id").GetString();
 
         // Act - Get the item
-        var item = await client.GetFromJsonAsync<TodoItemModel>(itemUri);
+        var item = await client.GetFromJsonAsync<TodoItemModel>(itemUri, CancellationToken);
 
         // Assert - Verify the item was created correctly
         Assert.NotNull(item);
@@ -69,12 +71,12 @@ public class ApiTests
         Assert.Equal(text, item.Text);
 
         // Act - Mark the item as being completed
-        using var completedResponse = await client.PostAsJsonAsync(itemUri + "/complete", new { });
+        using var completedResponse = await client.PostAsJsonAsync(itemUri + "/complete", new { }, CancellationToken);
 
         // Assert - The item was completed
         Assert.Equal(HttpStatusCode.NoContent, completedResponse.StatusCode);
 
-        item = await client.GetFromJsonAsync<TodoItemModel>(itemUri);
+        item = await client.GetFromJsonAsync<TodoItemModel>(itemUri, CancellationToken);
 
         Assert.NotNull(item);
         Assert.Equal(itemId, item.Id);
@@ -82,7 +84,7 @@ public class ApiTests
         Assert.True(item.IsCompleted);
 
         // Act - Get all the items
-        items = await client.GetFromJsonAsync<TodoListViewModel>("/api/items");
+        items = await client.GetFromJsonAsync<TodoListViewModel>("/api/items", CancellationToken);
 
         // Assert - The item was completed
         Assert.NotNull(items);
@@ -97,12 +99,12 @@ public class ApiTests
         Assert.NotNull(item.LastUpdated);
 
         // Act - Delete the item
-        using var deletedResponse = await client.DeleteAsync(itemUri);
+        using var deletedResponse = await client.DeleteAsync(itemUri, CancellationToken);
 
         // Assert - The item no longer exists
         Assert.Equal(HttpStatusCode.NoContent, deletedResponse.StatusCode);
 
-        items = await client.GetFromJsonAsync<TodoListViewModel>("/api/items");
+        items = await client.GetFromJsonAsync<TodoListViewModel>("/api/items", CancellationToken);
 
         Assert.NotNull(items);
         Assert.NotNull(items.Items);
@@ -110,12 +112,12 @@ public class ApiTests
         Assert.DoesNotContain(items.Items, x => x.Id == itemId);
 
         // Act
-        using var getResponse = await client.GetAsync(itemUri);
+        using var getResponse = await client.GetAsync(itemUri, CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, getResponse.StatusCode);
 
-        var problem = await getResponse.Content.ReadFromJsonAsync<ProblemDetails>();
+        var problem = await getResponse.Content.ReadFromJsonAsync<ProblemDetails>(CancellationToken);
 
         Assert.NotNull(problem);
         Assert.Equal(StatusCodes.Status404NotFound, problem.Status);
@@ -133,12 +135,12 @@ public class ApiTests
         var item = new CreateTodoItemModel { Text = string.Empty };
 
         // Act
-        var response = await client.PostAsJsonAsync("/api/items", item);
+        var response = await client.PostAsJsonAsync("/api/items", item, CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
 
-        var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>(CancellationToken);
 
         Assert.NotNull(problem);
         Assert.Equal(StatusCodes.Status400BadRequest, problem.Status);
@@ -155,24 +157,24 @@ public class ApiTests
         using var client = Fixture.CreateDefaultClient();
         var item = new CreateTodoItemModel { Text = "Something" };
 
-        using var createdResponse = await client.PostAsJsonAsync("/api/items", item);
+        using var createdResponse = await client.PostAsJsonAsync("/api/items", item, CancellationToken);
 
         Assert.Equal(HttpStatusCode.Created, createdResponse.StatusCode);
         Assert.NotNull(createdResponse.Headers.Location);
 
         var itemUri = createdResponse.Headers.Location;
 
-        using var completedResponse = await client.PostAsJsonAsync(itemUri + "/complete", new { });
+        using var completedResponse = await client.PostAsJsonAsync(itemUri + "/complete", new { }, CancellationToken);
 
         Assert.Equal(HttpStatusCode.NoContent, completedResponse.StatusCode);
 
         // Act
-        using var response = await client.PostAsJsonAsync(itemUri + "/complete", new { });
+        using var response = await client.PostAsJsonAsync(itemUri + "/complete", new { }, CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
 
-        var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>(CancellationToken);
 
         Assert.NotNull(problem);
         Assert.Equal(StatusCodes.Status400BadRequest, problem.Status);
@@ -189,24 +191,24 @@ public class ApiTests
         using var client = Fixture.CreateDefaultClient();
         var item = new CreateTodoItemModel { Text = "Something" };
 
-        using var createdResponse = await client.PostAsJsonAsync("/api/items", item);
+        using var createdResponse = await client.PostAsJsonAsync("/api/items", item, CancellationToken);
 
         Assert.Equal(HttpStatusCode.Created, createdResponse.StatusCode);
         Assert.NotNull(createdResponse.Headers.Location);
 
         var itemUri = createdResponse.Headers.Location;
 
-        using var deletedResponse = await client.DeleteAsync(itemUri);
+        using var deletedResponse = await client.DeleteAsync(itemUri, CancellationToken);
 
         Assert.Equal(HttpStatusCode.NoContent, deletedResponse.StatusCode);
 
         // Act
-        using var response = await client.PostAsJsonAsync(itemUri + "/complete", new { });
+        using var response = await client.PostAsJsonAsync(itemUri + "/complete", new { }, CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
 
-        var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>(CancellationToken);
 
         Assert.NotNull(problem);
         Assert.Equal(StatusCodes.Status404NotFound, problem.Status);
@@ -223,24 +225,24 @@ public class ApiTests
         using var client = Fixture.CreateDefaultClient();
         var item = new CreateTodoItemModel { Text = "Something" };
 
-        using var createdResponse = await client.PostAsJsonAsync("/api/items", item);
+        using var createdResponse = await client.PostAsJsonAsync("/api/items", item, CancellationToken);
 
         Assert.Equal(HttpStatusCode.Created, createdResponse.StatusCode);
         Assert.NotNull(createdResponse.Headers.Location);
 
         var itemUri = createdResponse.Headers.Location;
 
-        using var deletedResponse = await client.DeleteAsync(itemUri);
+        using var deletedResponse = await client.DeleteAsync(itemUri, CancellationToken);
 
         Assert.Equal(HttpStatusCode.NoContent, deletedResponse.StatusCode);
 
         // Act
-        using var response = await client.DeleteAsync(itemUri);
+        using var response = await client.DeleteAsync(itemUri, CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
 
-        var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>(CancellationToken);
 
         Assert.NotNull(problem);
         Assert.Equal(StatusCodes.Status404NotFound, problem.Status);
