@@ -40,7 +40,7 @@ public class OpenApiTests
         using var client = Fixture.CreateDefaultClient();
 
         // Act
-        var actual = await client.GetStringAsync(schemaUrl);
+        var actual = await client.GetStringAsync(schemaUrl, TestContext.Current.CancellationToken);
 
         // Assert
         var settings = new VerifySettings();
@@ -60,11 +60,11 @@ public class OpenApiTests
         using var client = Fixture.CreateDefaultClient();
 
         // Act
-        using var schema = await client.GetStreamAsync(schemaUrl);
+        using var schema = await client.GetStreamAsync(schemaUrl, TestContext.Current.CancellationToken);
 
         // Assert
         var reader = new OpenApiStreamReader();
-        var actual = await reader.ReadAsync(schema);
+        var actual = await reader.ReadAsync(schema, TestContext.Current.CancellationToken);
 
         Assert.Empty(actual.OpenApiDiagnostic.Errors);
 
