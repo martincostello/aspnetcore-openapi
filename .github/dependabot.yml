@@ -20,7 +20,7 @@ updates:
         - Swashbuckle.AspNetCore*
     xunit:
       patterns:
-        - Verify.Xunit
+        - Verify.Xunit*
         - xunit*
   schedule:
     day: friday
