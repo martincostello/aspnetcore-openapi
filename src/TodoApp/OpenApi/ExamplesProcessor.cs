@@ -34,7 +34,7 @@ public abstract class ExamplesProcessor
             TryAddRequestExamples(body, description, examples);
         }
 
-        TryAddResponseExamples(operation.Responses, description, examples);
+        TryAddResponseExamples(operation.Responses ?? [], description, examples);
     }
 
     protected void Process(OpenApiSchema schema, Type type)
