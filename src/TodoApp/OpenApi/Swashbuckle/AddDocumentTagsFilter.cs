@@ -13,6 +13,7 @@ public class AddDocumentTagsFilter : IDocumentFilter
 {
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {
+        swaggerDoc.Tags ??= [];
         swaggerDoc.Tags.Add(new() { Name = "TodoApp" });
     }
 }
