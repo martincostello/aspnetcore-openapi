@@ -1,5 +1,5 @@
 {
-  openapi: 3.0.4,
+  openapi: 3.1.1,
   info: {
     title: Todo API (ASP.NET Core OpenAPI),
     description: An API for managing Todo items.,
@@ -285,25 +285,35 @@
         type: object,
         properties: {
           type: {
-            type: string,
-            nullable: true
+            type: [
+              null,
+              string
+            ]
           },
           title: {
-            type: string,
-            nullable: true
+            type: [
+              null,
+              string
+            ]
           },
           status: {
-            type: integer,
-            format: int32,
-            nullable: true
+            type: [
+              null,
+              integer
+            ],
+            format: int32
           },
           detail: {
-            type: string,
-            nullable: true
+            type: [
+              null,
+              string
+            ]
           },
           instance: {
-            type: string,
-            nullable: true
+            type: [
+              null,
+              string
+            ]
           }
         },
         example: {
