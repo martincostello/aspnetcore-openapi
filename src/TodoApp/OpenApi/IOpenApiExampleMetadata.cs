@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using Microsoft.OpenApi.Any;
 
 namespace TodoApp.OpenApi;
 
@@ -29,7 +29,7 @@ public interface IOpenApiExampleMetadata
     /// </summary>
     /// <param name="context">The JSON serializer context to use to generate the example.</param>
     /// <returns>
-    /// The OpenAPI example to use.
+    /// The OpenAPI example to use, if any.
     /// </returns>
-    IOpenApiAny GenerateExample(JsonSerializerContext context);
+    JsonNode? GenerateExample(JsonSerializerContext context);
 }
