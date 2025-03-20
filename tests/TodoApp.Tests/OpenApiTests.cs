@@ -23,15 +23,10 @@ public class OpenApiTests
 
     private ITestOutputHelper OutputHelper { get; }
 
-    public static TheoryData<string> OpenApiUrls() => new()
-    {
-        { "/nswag/v1.json" },
-        { "/openapi/v1.json" },
-        ////{ "/swagger/v1/swagger.json" }, // TODO Disabled due to missing schema references
-    };
-
     [Theory]
-    [MemberData(nameof(OpenApiUrls))]
+    [InlineData("/nswag/v1.json")]
+    [InlineData("/openapi/v1.json", Skip = "https://github.com/dotnet/aspnetcore/issues/61038")]
+    [InlineData("/swagger/v1/swagger.json", Skip = "Depends on a version of Swashbuckle.AspNetCore that supports Microsoft.OpenApi 2.0.0-preview7.")]
     public async Task Schema_Is_Correct(string schemaUrl)
     {
         // Arrange
@@ -52,7 +47,9 @@ public class OpenApiTests
     }
 
     [Theory]
-    [MemberData(nameof(OpenApiUrls))]
+    [InlineData("/nswag/v1.json")]
+    [InlineData("/openapi/v1.json")]
+    [InlineData("/swagger/v1/swagger.json", Skip = "Depends on a version of Swashbuckle.AspNetCore that supports Microsoft.OpenApi 2.0.0-preview7.")]
     public async Task Schema_Has_No_Validation_Warnings(string schemaUrl)
     {
         // Arrange
