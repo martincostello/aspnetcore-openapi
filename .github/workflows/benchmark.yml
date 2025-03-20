@@ -55,7 +55,7 @@ jobs:
         "repo-name=${repoName}" >> ${env:GITHUB_OUTPUT}
 
     - name: Publish results
-      uses: martincostello/benchmarkdotnet-results-publisher@f09f6e7372fe5a62424758eb6bf1e5463ce9fd82
+      uses: martincostello/benchmarkdotnet-results-publisher@v1
       with:
         branch: ${{ github.ref_name }}
         comment-on-threshold: true
