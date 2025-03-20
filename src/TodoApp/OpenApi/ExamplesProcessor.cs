@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Models.Interfaces;
 
 namespace TodoApp.OpenApi;
 
@@ -56,7 +57,7 @@ public abstract class ExamplesProcessor
     }
 
     private static void TryAddParameterExamples(
-        IList<OpenApiParameter> parameters,
+        IList<IOpenApiParameter> parameters,
         ApiDescription description,
         IList<IOpenApiExampleMetadata> examples)
     {
@@ -91,7 +92,7 @@ public abstract class ExamplesProcessor
     }
 
     private static void TryAddRequestExamples(
-        OpenApiRequestBody body,
+        IOpenApiRequestBody body,
         ApiDescription description,
         IList<IOpenApiExampleMetadata> examples)
     {
