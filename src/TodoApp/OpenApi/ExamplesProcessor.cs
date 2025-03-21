@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Models.Interfaces;
 
 namespace TodoApp.OpenApi;
 
@@ -34,7 +35,7 @@ public abstract class ExamplesProcessor
             TryAddRequestExamples(body, description, examples);
         }
 
-        TryAddResponseExamples(operation.Responses, description, examples);
+        TryAddResponseExamples(operation.Responses ?? [], description, examples);
     }
 
     protected void Process(OpenApiSchema schema, Type type)
@@ -56,7 +57,7 @@ public abstract class ExamplesProcessor
     }
 
     private static void TryAddParameterExamples(
-        IList<OpenApiParameter> parameters,
+        IList<IOpenApiParameter> parameters,
         ApiDescription description,
         IList<IOpenApiExampleMetadata> examples)
     {
@@ -81,8 +82,7 @@ public abstract class ExamplesProcessor
                 if (metadata?.GenerateExample(Context) is { } value)
                 {
                     // Find the parameter that corresponds to the argument and set its example
-                    var parameter = parameters.FirstOrDefault((p) => p.Name == argument.Name);
-                    if (parameter is not null)
+                    if (parameters.FirstOrDefault((p) => p.Name == argument.Name) is OpenApiParameter parameter)
                     {
                         parameter.Example ??= value;
                     }
@@ -92,7 +92,7 @@ public abstract class ExamplesProcessor
     }
 
     private static void TryAddRequestExamples(
-        OpenApiRequestBody body,
+        IOpenApiRequestBody body,
         ApiDescription description,
         IList<IOpenApiExampleMetadata> examples)
     {
