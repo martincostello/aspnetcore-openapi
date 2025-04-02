@@ -26,7 +26,7 @@ public class OpenApiTests
     [Theory]
     [InlineData("/nswag/v1.json")]
     [InlineData("/openapi/v1.json", Skip = "https://github.com/dotnet/aspnetcore/issues/61038")]
-    [InlineData("/swagger/v1/swagger.json", Skip = "Depends on a version of Swashbuckle.AspNetCore that supports Microsoft.OpenApi 2.0.0-preview7.")]
+    [InlineData("/swagger/v1/swagger.json", Skip = "https://github.com/microsoft/OpenAPI.NET/issues/2300")]
     public async Task Schema_Is_Correct(string schemaUrl)
     {
         // Arrange
@@ -49,7 +49,7 @@ public class OpenApiTests
     [Theory]
     [InlineData("/nswag/v1.json")]
     [InlineData("/openapi/v1.json")]
-    [InlineData("/swagger/v1/swagger.json", Skip = "Depends on a version of Swashbuckle.AspNetCore that supports Microsoft.OpenApi 2.0.0-preview7.")]
+    [InlineData("/swagger/v1/swagger.json")]
     public async Task Schema_Has_No_Validation_Warnings(string schemaUrl)
     {
         // Arrange
