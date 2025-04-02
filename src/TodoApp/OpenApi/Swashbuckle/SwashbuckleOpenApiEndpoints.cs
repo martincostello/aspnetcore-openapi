@@ -42,10 +42,8 @@ public static class SwashbuckleOpenApiEndpoints
                 Type = SecuritySchemeType.Http,
             };
 
-            var reference = new OpenApiSecuritySchemeReference("Bearer");
-
-            options.AddSecurityDefinition(reference.Reference.Id, scheme);
-            options.AddSecurityRequirement(new() { [reference] = [] });
+            options.AddSecurityDefinition("Bearer", scheme);
+            options.AddSecurityRequirement((document) => new() { [new("Bearer", document)] = [] });
 
             // Enable reading OpenAPI metadata from attributes
             options.EnableAnnotations();
