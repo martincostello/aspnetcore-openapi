@@ -20,8 +20,8 @@
     <PackageReference Include="Microsoft.OpenApi" Version="2.0.0-preview7" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.8.3" PrivateAssets="all" />
     <PackageReference Include="NSwag.AspNetCore" Version="14.4.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.0-pr.3283.1134" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.0-pr.3283.1134" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.0-pr.3283.1238" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.0-pr.3283.1238" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="package.json;package-lock.json;tsconfig.json" CopyToPublishDirectory="Never" />
