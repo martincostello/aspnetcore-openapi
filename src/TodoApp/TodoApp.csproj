@@ -19,7 +19,7 @@
     <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="9.0.3" PrivateAssets="all" />
     <PackageReference Include="Microsoft.OpenApi" Version="1.6.24" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.8.1" PrivateAssets="all" />
-    <PackageReference Include="NSwag.AspNetCore" Version="14.2.0" />
+    <PackageReference Include="NSwag.AspNetCore" Version="14.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="8.1.0" />
   </ItemGroup>
