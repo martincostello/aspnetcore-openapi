@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,15 @@ public static class ApiEndpoints
         services.AddSingleton(TimeProvider.System);
         services.AddScoped<ITodoRepository, TodoRepository>();
         services.AddScoped<ITodoService, TodoService>();
+
+        // Use the same JSON serializer options for OpenAPI as for the API itself
+        services.ConfigureHttpJsonOptions(options =>
+        {
+            options.SerializerOptions.DefaultIgnoreCondition = TodoJsonSerializerContext.Default.Options.DefaultIgnoreCondition;
+            options.SerializerOptions.NumberHandling = TodoJsonSerializerContext.Default.Options.NumberHandling;
+            options.SerializerOptions.PropertyNamingPolicy = TodoJsonSerializerContext.Default.Options.PropertyNamingPolicy;
+            options.SerializerOptions.WriteIndented = TodoJsonSerializerContext.Default.Options.WriteIndented;
+        });
 
         // Configure an EFCore data context to store the Todos backed by SQLite
         services.AddDbContext<TodoContext>((serviceProvider, options) =>
