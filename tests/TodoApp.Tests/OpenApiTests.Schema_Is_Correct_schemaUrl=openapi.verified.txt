@@ -298,7 +298,8 @@
             nullable: true
           },
           status: {
-            type: integer
+            type: integer,
+            nullable: true,
             format: int32
           },
           detail: {
