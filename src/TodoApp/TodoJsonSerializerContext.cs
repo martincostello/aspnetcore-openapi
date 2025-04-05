@@ -20,6 +20,7 @@ namespace TodoApp;
 [JsonSerializable(typeof(TodoListViewModel))]
 [JsonSourceGenerationOptions(
     DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+    NumberHandling = JsonNumberHandling.Strict,
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     WriteIndented = true)]
 public sealed partial class TodoJsonSerializerContext : JsonSerializerContext;
