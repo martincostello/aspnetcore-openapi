@@ -25,7 +25,7 @@ public class OpenApiTests
 
     [Theory]
     [InlineData("/nswag/v1.json")]
-    [InlineData("/openapi/v1.json", Skip = "https://github.com/dotnet/aspnetcore/issues/61038")]
+    [InlineData("/openapi/v1.json")]
     [InlineData("/swagger/v1/swagger.json")]
     public async Task Schema_Is_Correct(string schemaUrl)
     {
