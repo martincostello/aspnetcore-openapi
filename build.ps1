@@ -69,7 +69,7 @@ if ($installDotNetSdk -eq $true) {
 }
 
 function DotNetTest {
-    param([string]$Project)
+    param()
 
     $additionalArgs = @()
 
@@ -78,7 +78,7 @@ function DotNetTest {
         $additionalArgs += "GitHubActions;report-warnings=false"
     }
 
-    & $dotnet test $Project --configuration "Release" $additionalArgs
+    & $dotnet test --configuration "Release" $additionalArgs
 
     if ($LASTEXITCODE -ne 0) {
         throw "dotnet test failed with exit code $LASTEXITCODE"
@@ -100,5 +100,5 @@ DotNetPublish (Join-Path $solutionPath "src" "TodoApp" "TodoApp.csproj")
 
 if (-Not $SkipTests) {
     Write-Host "Testing solution..." -ForegroundColor Green
-    DotNetTest(Join-Path $solutionPath "tests" "TodoApp.Tests" "TodoApp.Tests.csproj")
+    DotNetTest
 }
