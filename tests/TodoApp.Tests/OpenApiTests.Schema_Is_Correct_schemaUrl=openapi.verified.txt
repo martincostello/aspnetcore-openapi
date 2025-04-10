@@ -13,6 +13,11 @@
     },
     version: v1
   },
+  servers: [
+    {
+      url: http://localhost/
+    }
+  ],
   paths: {
     /api/items: {
       get: {

@@ -51,8 +51,8 @@ public static class AspNetCoreOpenApiEndpoints
                 document.Components ??= new();
                 document.Components.SecuritySchemes ??= new Dictionary<string, IOpenApiSecurityScheme>();
                 document.Components.SecuritySchemes[reference.Reference.Id] = scheme;
-                document.SecurityRequirements ??= [];
-                document.SecurityRequirements.Add(new() { [reference] = [] });
+                document.Security ??= [];
+                document.Security.Add(new() { [reference] = [] });
 
                 return Task.CompletedTask;
             });
