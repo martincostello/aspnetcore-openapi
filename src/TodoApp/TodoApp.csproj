@@ -17,7 +17,7 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0-preview.3.25172.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0-preview.3.25171.6" />
     <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="10.0.0-preview.3.25172.1" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.OpenApi" Version="2.0.0-preview7" />
+    <PackageReference Include="Microsoft.OpenApi" Version="2.0.0-preview.11" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.8.1" PrivateAssets="all" />
     <PackageReference Include="NSwag.AspNetCore" Version="14.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.0-pr.3283.1244" />
