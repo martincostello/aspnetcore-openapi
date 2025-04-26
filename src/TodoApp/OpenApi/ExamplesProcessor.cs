@@ -78,13 +78,11 @@ public abstract class ExamplesProcessor
                     argument.ParameterType.GetExampleMetadata().FirstOrDefault((p) => p.SchemaType == argument.ParameterType) ??
                     examples.FirstOrDefault((p) => p.SchemaType == argument.ParameterType);
 
-                if (metadata?.GenerateExample(Context) is { } value)
+                // Find the parameter that corresponds to the argument and set its example
+                if (metadata?.GenerateExample(Context) is { } value &&
+                    parameters.FirstOrDefault((p) => p.Name == argument.Name) is OpenApiParameter parameter)
                 {
-                    // Find the parameter that corresponds to the argument and set its example
-                    if (parameters.FirstOrDefault((p) => p.Name == argument.Name) is OpenApiParameter parameter)
-                    {
-                        parameter.Example ??= value;
-                    }
+                    parameter.Example ??= value;
                 }
             }
         }
