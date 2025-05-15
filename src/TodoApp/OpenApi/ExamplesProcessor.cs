@@ -94,7 +94,10 @@ public abstract class ExamplesProcessor
         ApiDescription description,
         IList<IOpenApiExampleMetadata> examples)
     {
-        if (!body.Content.TryGetValue("application/json", out var mediaType) || mediaType.Example is not null)
+        if (body is null ||
+            body.Content is null ||
+            !body.Content.TryGetValue("application/json", out var mediaType) ||
+            mediaType.Example is not null)
         {
             return;
         }
@@ -131,7 +134,7 @@ public abstract class ExamplesProcessor
             foreach (var responseFormat in schemaResponse.ApiResponseFormats)
             {
                 if (responses.TryGetValue(schemaResponse.StatusCode.ToString(CultureInfo.InvariantCulture), out var response) &&
-                    response.Content.TryGetValue(responseFormat.MediaType, out var mediaType))
+                    response.Content?.TryGetValue(responseFormat.MediaType, out var mediaType) is true)
                 {
                     mediaType.Example ??= (metadata ?? examples.SingleOrDefault((p) => p.SchemaType == schemaResponse.Type))?.GenerateExample(Context);
                 }

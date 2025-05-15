@@ -65,7 +65,10 @@ public class OpenApiTests
         // Assert
         var actual = await OpenApiDocument.LoadAsync(schema, "json", cancellationToken: TestContext.Current.CancellationToken);
 
+        Assert.NotNull(actual);
+        Assert.NotNull(actual.Diagnostic);
         Assert.Empty(actual.Diagnostic.Errors);
+        Assert.NotNull(actual.Document);
 
         var errors = actual.Document.Validate(ruleSet);
 
