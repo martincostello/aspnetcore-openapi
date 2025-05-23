@@ -2,6 +2,7 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Models.References;
 
 namespace TodoApp.OpenApi.Swashbuckle;
 
@@ -39,15 +40,10 @@ public static class SwashbuckleOpenApiEndpoints
                 Description = "Bearer authentication using a JWT.",
                 Scheme = "bearer",
                 Type = SecuritySchemeType.Http,
-                Reference = new()
-                {
-                    Id = "Bearer",
-                    Type = ReferenceType.SecurityScheme,
-                },
-                UnresolvedReference = false,
             };
-            options.AddSecurityDefinition(scheme.Reference.Id, scheme);
-            options.AddSecurityRequirement(new() { [scheme] = [] });
+
+            options.AddSecurityDefinition("Bearer", scheme);
+            options.AddSecurityRequirement((document) => new() { [new("Bearer", document)] = [] });
 
             // Enable reading OpenAPI metadata from attributes
             options.EnableAnnotations();
