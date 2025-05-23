@@ -2,6 +2,8 @@
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
 using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Models.Interfaces;
+using Microsoft.OpenApi.Models.References;
 
 namespace TodoApp.OpenApi.AspNetCore;
 
@@ -14,6 +16,9 @@ public static class AspNetCoreOpenApiEndpoints
             // Add a document transformer to customise the generated OpenAPI document
             options.AddDocumentTransformer((document, _, _) =>
             {
+                // TODO Use 3.1 when all three OpenAPI implementations support it
+                options.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi3_0;
+
                 // Add a title and version for the OpenAPI document
                 document.Info.Title = "Todo API (ASP.NET Core OpenAPI)";
                 document.Info.Description = "An API for managing Todo items.";
@@ -39,18 +44,16 @@ public static class AspNetCoreOpenApiEndpoints
                     Description = "Bearer authentication using a JWT.",
                     Scheme = "bearer",
                     Type = SecuritySchemeType.Http,
-                    Reference = new()
-                    {
-                        Id = "Bearer",
-                        Type = ReferenceType.SecurityScheme,
-                    },
                 };
 
+                var referenceId = "Bearer";
+                var reference = new OpenApiSecuritySchemeReference(referenceId, document);
+
                 document.Components ??= new();
-                document.Components.SecuritySchemes ??= new Dictionary<string, OpenApiSecurityScheme>();
-                document.Components.SecuritySchemes[scheme.Reference.Id] = scheme;
-                document.SecurityRequirements ??= [];
-                document.SecurityRequirements.Add(new() { [scheme] = [] });
+                document.Components.SecuritySchemes ??= [];
+                document.Components.SecuritySchemes[referenceId] = scheme;
+                document.Security ??= [];
+                document.Security.Add(new() { [reference] = [] });
 
                 return Task.CompletedTask;
             });
