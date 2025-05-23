@@ -9,19 +9,19 @@
     <OpenApiGenerateDocumentsOnBuild>true</OpenApiGenerateDocumentsOnBuild>
     <OpenApiGenerateDocumentsOptions>--openapi-version OpenApi3_0</OpenApiGenerateDocumentsOptions>
     <RootNamespace>TodoApp</RootNamespace>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.6" />
-    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="9.0.6" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.OpenApi" Version="1.6.24" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0-preview.4.25258.110" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0-preview.4.25258.110" />
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="10.0.0-preview.4.25258.110" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.OpenApi" Version="2.0.0-preview.17" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.8.3" PrivateAssets="all" />
     <PackageReference Include="NSwag.AspNetCore" Version="14.4.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.4" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="8.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.0-pr.3283.1370" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.0-pr.3283.1370" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="package.json;package-lock.json;tsconfig.json" CopyToPublishDirectory="Never" />
