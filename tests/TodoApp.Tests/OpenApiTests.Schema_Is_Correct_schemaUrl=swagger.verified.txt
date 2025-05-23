@@ -260,8 +260,8 @@
         properties: {
           text: {
             type: string,
-            description: Gets or sets the text of the Todo item.,
-            nullable: true
+            nullable: true,
+            description: Gets or sets the text of the Todo item.
           }
         },
         additionalProperties: false,
@@ -275,8 +275,8 @@
         properties: {
           id: {
             type: string,
-            description: Gets or sets the ID of the created Todo item.,
-            nullable: true
+            nullable: true,
+            description: Gets or sets the ID of the created Todo item.
           }
         },
         additionalProperties: false,
@@ -298,8 +298,8 @@
           },
           status: {
             type: integer,
-            format: int32,
-            nullable: true
+            nullable: true,
+            format: int32
           },
           detail: {
             type: string,
@@ -322,13 +322,13 @@
         properties: {
           id: {
             type: string,
-            description: Gets or sets the ID of the Todo item.,
-            nullable: true
+            nullable: true,
+            description: Gets or sets the ID of the Todo item.
           },
           text: {
             type: string,
-            description: Gets or sets the text of the Todo item.,
-            nullable: true
+            nullable: true,
+            description: Gets or sets the text of the Todo item.
           },
           isCompleted: {
             type: boolean,
@@ -336,8 +336,8 @@
           },
           lastUpdated: {
             type: string,
-            description: Gets or sets the date and time the Todo item was last updated.,
-            nullable: true
+            nullable: true,
+            description: Gets or sets the date and time the Todo item was last updated.
           }
         },
         additionalProperties: false,
@@ -353,11 +353,11 @@
         properties: {
           items: {
             type: array,
+            nullable: true,
             items: {
               $ref: #/components/schemas/TodoItemModel
             },
-            description: Gets or sets the Todo item(s).,
-            nullable: true
+            description: Gets or sets the Todo item(s).
           }
         },
         additionalProperties: false,
