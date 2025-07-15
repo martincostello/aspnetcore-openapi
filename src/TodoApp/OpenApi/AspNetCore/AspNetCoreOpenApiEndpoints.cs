@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
-using Microsoft.OpenApi.Models;
-using Microsoft.OpenApi.Models.Interfaces;
-using Microsoft.OpenApi.Models.References;
+using Microsoft.OpenApi;
 
 namespace TodoApp.OpenApi.AspNetCore;
 
@@ -50,7 +48,7 @@ public static class AspNetCoreOpenApiEndpoints
                 var reference = new OpenApiSecuritySchemeReference(referenceId, document);
 
                 document.Components ??= new();
-                document.Components.SecuritySchemes ??= [];
+                document.Components.SecuritySchemes ??= new Dictionary<string, IOpenApiSecurityScheme>();
                 document.Components.SecuritySchemes[referenceId] = scheme;
                 document.Security ??= [];
                 document.Security.Add(new() { [reference] = [] });

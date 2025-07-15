@@ -7,7 +7,7 @@ using System.Text.Json.Serialization.Metadata;
 using System.Xml;
 using System.Xml.XPath;
 using Microsoft.AspNetCore.OpenApi;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 namespace TodoApp.OpenApi.AspNetCore;
 
