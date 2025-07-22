@@ -12,8 +12,6 @@ public static class OpenApiEndpoints
     public static IServiceCollection AddOpenApiServices(this IServiceCollection services)
     {
         services.AddAspNetCoreOpenApi();
-        services.AddNSwagOpenApi();
-        services.AddSwashbuckleOpenApi();
 
         return services;
     }
@@ -22,8 +20,6 @@ public static class OpenApiEndpoints
         where T : IApplicationBuilder, IEndpointRouteBuilder
     {
         builder.UseAspnetCoreOpenApi();
-        builder.UseNSwagOpenApi();
-        builder.UseSwashbuckleOpenApi();
 
         return builder;
     }

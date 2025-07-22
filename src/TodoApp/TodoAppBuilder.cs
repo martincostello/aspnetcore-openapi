@@ -51,6 +51,11 @@ public static class TodoAppBuilder
         // Add endpoints for OpenAPI
         app.UseOpenApiEndpoints();
 
+        app.UseSwaggerUI(options =>
+        {
+            options.SwaggerEndpoint("/openapi/v1.json", "Test");
+        });
+
         // Add the HTTP endpoints
         app.MapTodoApiRoutes();
 
