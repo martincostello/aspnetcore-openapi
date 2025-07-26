@@ -19,6 +19,8 @@ if (args.SequenceEqual(["--test"]))
     {
         await benchmarks.StopServer();
     }
+
+    return 0;
 }
 else
 {
