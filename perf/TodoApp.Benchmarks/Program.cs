@@ -22,5 +22,6 @@ if (args.SequenceEqual(["--test"]))
 }
 else
 {
-    BenchmarkRunner.Run<OpenApiBenchmarks>(args: args);
+    var summary = BenchmarkRunner.Run<OpenApiBenchmarks>(args: args);
+    return summary.Reports.Any((p) => !p.Success) ? 1 : 0;
 }
