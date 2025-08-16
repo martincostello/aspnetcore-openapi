@@ -22,6 +22,8 @@ env:
   DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION: 1
   FORCE_COLOR: 3
   NUGET_XMLDOC_MODE: skip
+  # renovate: datasource=npm depName=spectral-cli packageName=@stoplight/spectral-cli
+  SPECTRAL_CLI_VERSION: '6.15.0'
   TERM: xterm
 
 jobs:
@@ -40,13 +42,17 @@ jobs:
     steps:
 
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      with:
+        filter: 'tree:0'
+        persist-credentials: false
+        show-progress: false
 
     - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4.3.1
 
     - name: Setup Node
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
       with:
         node-version: '22'
 
@@ -55,7 +61,7 @@ jobs:
       run: ./build.ps1
 
     - name: Install Spectral
-      run: npm install -g @stoplight/spectral-cli
+      run: npm install -g "@stoplight/spectral-cli@${SPECTRAL_CLI_VERSION}"
 
     - name: Run Spectral
       run: spectral lint "./artifacts/openapi/*" --fail-severity warn --format github-actions
