@@ -66,6 +66,7 @@ public class OpenApiTests
         Assert.NotNull(actual);
         Assert.NotNull(actual.Diagnostic);
         Assert.Empty(actual.Diagnostic.Errors);
+        Assert.Empty(actual.Diagnostic.Warnings);
         Assert.NotNull(actual.Document);
 
         var errors = actual.Document.Validate(ruleSet);
