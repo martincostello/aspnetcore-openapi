@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
-using Microsoft.OpenApi.Extensions;
-using Microsoft.OpenApi.Readers;
-using Microsoft.OpenApi.Validations;
+using Microsoft.OpenApi;
 
 namespace TodoApp;
 
@@ -63,12 +61,15 @@ public class OpenApiTests
         using var schema = await client.GetStreamAsync(schemaUrl, TestContext.Current.CancellationToken);
 
         // Assert
-        var reader = new OpenApiStreamReader();
-        var actual = await reader.ReadAsync(schema, TestContext.Current.CancellationToken);
+        var actual = await OpenApiDocument.LoadAsync(schema, "json", cancellationToken: TestContext.Current.CancellationToken);
 
-        Assert.Empty(actual.OpenApiDiagnostic.Errors);
+        Assert.NotNull(actual);
+        Assert.NotNull(actual.Diagnostic);
+        Assert.Empty(actual.Diagnostic.Errors);
+        Assert.Empty(actual.Diagnostic.Warnings);
+        Assert.NotNull(actual.Document);
 
-        var errors = actual.OpenApiDocument.Validate(ruleSet);
+        var errors = actual.Document.Validate(ruleSet);
 
         Assert.Empty(errors);
     }
