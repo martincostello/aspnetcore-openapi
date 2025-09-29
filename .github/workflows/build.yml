@@ -61,7 +61,8 @@ jobs:
       run: ./build.ps1
 
     - name: Install Spectral
-      run: npm install -g "@stoplight/spectral-cli@${SPECTRAL_CLI_VERSION}"
+      shell: pwsh
+      run: npm install -g "@stoplight/spectral-cli@${env:SPECTRAL_CLI_VERSION}"
 
     - name: Run Spectral
       run: spectral lint "./artifacts/openapi/*" --fail-severity warn --format github-actions
