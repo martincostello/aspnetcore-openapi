@@ -14,7 +14,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
     <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.27" />
     <PackageReference Include="Microsoft.Playwright" Version="1.55.0" />
-    <PackageReference Include="Verify.XunitV3" Version="30.20.0" />
+    <PackageReference Include="Verify.XunitV3" Version="30.20.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
     <PackageReference Include="xunit.v3" Version="3.1.0" />
   </ItemGroup>
