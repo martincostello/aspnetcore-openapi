@@ -17,11 +17,11 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0-rc.2.25502.107" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0-rc.2.25502.107" />
     <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="10.0.0-rc.2.25502.107" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.OpenApi" Version="2.3.3" />
+    <PackageReference Include="Microsoft.OpenApi" Version="2.3.5" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.9.3" PrivateAssets="all" />
     <PackageReference Include="NSwag.AspNetCore" Version="14.6.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.0-pr.3283.1847" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="10.0.0-pr.3283.1847" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.0-pr.3283.1864" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="10.0.0-pr.3283.1864" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="package.json;package-lock.json;tsconfig.json" CopyToPublishDirectory="Never" />
