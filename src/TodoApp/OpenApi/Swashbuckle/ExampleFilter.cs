@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Martin Costello, 2024. All rights reserved.
 // Licensed under the Apache 2.0 license. See the LICENSE file in the project root for full license information.
 
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace TodoApp.OpenApi.Swashbuckle;
@@ -16,6 +16,11 @@ public class ExampleFilter : ExamplesProcessor, IOperationFilter, ISchemaFilter
         => Process(operation, context.ApiDescription);
 
     /// <inheritdoc />
-    public void Apply(OpenApiSchema schema, SchemaFilterContext context)
-        => Process(schema, context.Type);
+    public void Apply(IOpenApiSchema schema, SchemaFilterContext context)
+    {
+        if (schema is OpenApiSchema concrete)
+        {
+            Process(concrete, context.Type);
+        }
+    }
 }
