@@ -1,7 +1,7 @@
 import stylistic from "@stylistic/eslint-plugin";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
-import jest from "eslint-plugin-jest";
 import globals from "globals";
+import vitest from "eslint-plugin-vitest";
 import tsParser from "@typescript-eslint/parser";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -28,12 +28,12 @@ export default [...compat.extends("prettier"), {
     plugins: {
         "@stylistic": stylistic,
         "@typescript-eslint": typescriptEslint,
-        jest,
+        vitest,
     },
     languageOptions: {
         globals: {
             ...globals.browser,
-            ...jest.environments.globals.globals,
+            ...vitest.environments.env.globals,
             ...globals.node,
         },
         parser: tsParser,
