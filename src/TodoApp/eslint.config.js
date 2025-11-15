@@ -1,7 +1,7 @@
 import stylistic from "@stylistic/eslint-plugin";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
-import vitest from "eslint-plugin-vitest";
 import globals from "globals";
+import vitest from "eslint-plugin-vitest";
 import tsParser from "@typescript-eslint/parser";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
