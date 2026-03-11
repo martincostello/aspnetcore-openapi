@@ -111,9 +111,9 @@ public abstract class ExamplesProcessor
 
         metadata ??= examples.FirstOrDefault((p) => p.SchemaType == bodyParameter.Type);
 
-        if (metadata is not null)
+        if (metadata is not null && mediaType is OpenApiMediaType concrete)
         {
-            mediaType.Example ??= metadata.GenerateExample(Context);
+            concrete.Example ??= metadata.GenerateExample(Context);
         }
     }
 
@@ -133,9 +133,10 @@ public abstract class ExamplesProcessor
             foreach (var responseFormat in schemaResponse.ApiResponseFormats)
             {
                 if (responses.TryGetValue(schemaResponse.StatusCode.ToString(CultureInfo.InvariantCulture), out var response) &&
-                    response.Content?.TryGetValue(responseFormat.MediaType, out var mediaType) is true)
+                    response.Content?.TryGetValue(responseFormat.MediaType, out var mediaType) is true &&
+                    mediaType is OpenApiMediaType concrete)
                 {
-                    mediaType.Example ??= (metadata ?? examples.SingleOrDefault((p) => p.SchemaType == schemaResponse.Type))?.GenerateExample(Context);
+                    concrete.Example ??= (metadata ?? examples.SingleOrDefault((p) => p.SchemaType == schemaResponse.Type))?.GenerateExample(Context);
                 }
             }
         }
