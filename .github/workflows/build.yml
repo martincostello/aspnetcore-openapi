@@ -23,7 +23,7 @@ env:
   FORCE_COLOR: 3
   NUGET_XMLDOC_MODE: skip
   # renovate: datasource=npm depName=spectral-cli packageName=@stoplight/spectral-cli
-  SPECTRAL_CLI_VERSION: '6.15.0'
+  SPECTRAL_CLI_VERSION: '6.15.1'
   TERM: xterm
 
 jobs:
