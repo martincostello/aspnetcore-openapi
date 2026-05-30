@@ -78,7 +78,7 @@ jobs:
         name: 'ASP.NET Core OpenAPI'
         output-file-path: '${{ steps.get-repo-name.outputs.repo-name }}/data.json'
         repo: '${{ github.repository_owner }}/benchmarks'
-        repo-token: ${{ secrets.BENCHMARKS_TOKEN }}
+        repo-token: ${{ steps.get-github-token.outputs.token }}
 
     - name: Output summary
       shell: pwsh
