@@ -9,6 +9,6 @@
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="BenchmarkDotNet" Version="0.16.0-nightly.20260604.559" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.16.0-nightly.20260623.568" />
   </ItemGroup>
 </Project>
