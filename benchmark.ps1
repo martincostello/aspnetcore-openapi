@@ -73,7 +73,9 @@ $benchmarks = (Join-Path $solutionPath "perf" "TodoApp.Benchmarks" "TodoApp.Benc
 
 Write-Host "Running benchmarks..." -ForegroundColor Green
 
-$additionalArgs = @()
+$additionalArgs = @(
+    "--consumeTasksSynchronously" # For backwards compatibility with BenchmarkDotNet versions before 0.16.0
+)
 
 if (-Not [string]::IsNullOrEmpty($Filter)) {
     $additionalArgs += "--filter"
