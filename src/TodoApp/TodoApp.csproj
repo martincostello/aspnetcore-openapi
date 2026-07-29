@@ -10,15 +10,12 @@
     <OpenApiGenerateDocumentsOptions>--openapi-version OpenApi3_0</OpenApiGenerateDocumentsOptions>
     <RootNamespace>TodoApp</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
-    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
-    <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" />
     <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="10.0.10" PrivateAssets="all" />
     <PackageReference Include="Microsoft.OpenApi" Version="2.11.0" />
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="7.0.0" PrivateAssets="all" />
     <PackageReference Include="NSwag.AspNetCore" Version="14.7.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="10.2.3" />
@@ -26,7 +23,6 @@
   <ItemGroup>
     <Content Update="package.json;package-lock.json;tsconfig.json" CopyToPublishDirectory="Never" />
     <None Remove="scripts\ts\**\*.ts" />
-    <TypeScriptCompile Include="scripts\ts\**\*.ts" />
   </ItemGroup>
   <Target Name="BundleAssets" BeforeTargets="BeforeBuild">
     <Exec Command="npm ci" Condition=" !Exists('$(MSBuildThisFileDirectory)\node_modules') AND '$(GITHUB_ACTIONS)' != '' " />
