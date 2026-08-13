@@ -39,7 +39,7 @@ public abstract class ExamplesProcessor
 
     protected void Process(OpenApiSchema schema, Type type)
     {
-        if (schema.Example is not null)
+        if (schema.Examples is { Count: > 0 })
         {
             return;
         }
@@ -47,11 +47,13 @@ public abstract class ExamplesProcessor
         // We cannot change ProblemDetails directly, so we need to adjust it if we see it
         if (type == typeof(ProblemDetails))
         {
-            schema.Example = ExampleFormatter.AsJson<ProblemDetails, ProblemDetailsExampleProvider>(Context);
+            schema.Examples ??= [];
+            schema.Examples.Add(ExampleFormatter.AsJson<ProblemDetails, ProblemDetailsExampleProvider>(Context)!);
         }
         else if (type.GetExampleMetadata().FirstOrDefault() is { } metadata)
         {
-            schema.Example = metadata.GenerateExample(Context);
+            schema.Examples ??= [];
+            schema.Examples.Add(metadata.GenerateExample(Context)!);
         }
     }
 
