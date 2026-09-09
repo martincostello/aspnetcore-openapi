@@ -17,8 +17,8 @@
     <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="11.0.0-rc.1.26425.128" PrivateAssets="all" />
     <PackageReference Include="Microsoft.OpenApi" Version="3.10.2" />
     <PackageReference Include="NSwag.AspNetCore" Version="14.7.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="11.0.0-pr.3786.3018" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="11.0.0-pr.3786.3018" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="11.0.0-pr.3786.3034" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="11.0.0-pr.3786.3034" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="package.json;package-lock.json;tsconfig.json" CopyToPublishDirectory="Never" />
