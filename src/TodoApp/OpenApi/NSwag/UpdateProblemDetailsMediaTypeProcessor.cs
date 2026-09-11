@@ -15,7 +15,7 @@ public class UpdateProblemDetailsMediaTypeProcessor : IOperationProcessor
     {
         foreach ((var status, var response) in context.OperationDescription.Operation.Responses)
         {
-            if (!status.StartsWith('4'))
+            if (!status.StartsWith('4', StringComparison.Ordinal))
             {
                 continue;
             }
