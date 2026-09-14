@@ -15,7 +15,7 @@
     <PackageReference Include="Microsoft.Playwright" Version="1.62.0" />
     <PackageReference Include="Verify.XunitV3" Version="32.0.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="4.0.0" />
-    <PackageReference Include="xunit.v3.mtp-off" Version="4.0.0" />
+    <PackageReference Include="xunit.v3.mtp-off" Version="4.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="xunit.runner.json;xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
