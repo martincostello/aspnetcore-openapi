@@ -2,7 +2,7 @@
   "version": "1.0",
   "components": [
     "Component.Microsoft.VisualStudio.RazorExtension",
-    "Microsoft.NetCore.Component.Runtime.10.0",
+    "Microsoft.NetCore.Component.Runtime.11.0",
     "Microsoft.NetCore.Component.SDK",
     "Microsoft.VisualStudio.Component.CoreEditor",
     "Microsoft.VisualStudio.Component.JavaScript.Diagnostics",
